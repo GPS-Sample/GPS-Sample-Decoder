@@ -75,7 +75,6 @@ There are many ways in which you can participate in this project, for example:
 
 * [Submit bugs and feature requests](https://github.com/GPS-Sample/GPS-Sample-Decoder/issues), and help us verify as they are checked in
 * Review [source code changes](https://github.com/GPS-Sample/GPS-Sample-Decoder/pulls)
-* Review the [documentation](https://github.com/GPS-Sample/GPS-Sample-Decoder/tree/main/Documents) and make pull requests for anything from typos to additional and new content
 
 If you are interested in fixing issues and contributing directly to the code base, please see the document [How to Contribute](How-to-Contribute.md).
 
