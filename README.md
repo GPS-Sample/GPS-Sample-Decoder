@@ -2,11 +2,11 @@
   <a href="https://www.gpssample.org">
     <img alt="GPSSample logo" src="images/gpssample.png" height="128">
   </a>
-  <h1>GPSSample</h1>
+  <h1>GPSSampleDecoder</h1>
 </div>
 
-[![Platform](https://img.shields.io/badge/Platform-Android-3B90C4.svg?style=flat)](https://www.android.com)
-[![Language](https://img.shields.io/badge/Language-Kotlin-blue.svg?style=flat)](https://kotlinlang.org)
+[![Platform](https://img.shields.io/badge/Platforms-Windows,Mac-3B90C4.svg?style=flat)](https://www.android.com)
+[![Language](https://img.shields.io/badge/Language-CSharp-blue.svg?style=flat)](https://kotlinlang.org)
 [![License](https://img.shields.io/badge/License-GPL%20v3-blue.svg?style=flat)](LICENSE.md)
 [![Chat](https://img.shields.io/badge/Chat-on%20Discord-60C53A.svg?style=flat)](https://discord.com/invite/A8EYY9xV)
 [![Covenant](https://img.shields.io/badge/Contributor%20Covenant-1.19.24-469C9C.svg?style=flat)](CODE-OF-CONDUCT.pdf)
