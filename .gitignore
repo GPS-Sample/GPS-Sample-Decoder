@@ -1,0 +1,7 @@
+.vs/
+GPSSampleDecoder/bin/
+GPSSampleDecoder/obj/
+build/
+obj/
+publish/
+.DS_Store

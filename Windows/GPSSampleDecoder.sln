@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GPSSampleDecoder", "..\GPSSampleDecoder\GPSSampleDecoder.csproj", "{BC0DF6EE-0D52-4848-8CC3-D8DE2BD0FE07}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "GPSSampleDecoderSetup", "GPSSampleDecoderSetup\GPSSampleDecoderSetup.vdproj", "{B8202E68-60C2-4B00-9CC1-67D4E9C1EBA8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BC0DF6EE-0D52-4848-8CC3-D8DE2BD0FE07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC0DF6EE-0D52-4848-8CC3-D8DE2BD0FE07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC0DF6EE-0D52-4848-8CC3-D8DE2BD0FE07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC0DF6EE-0D52-4848-8CC3-D8DE2BD0FE07}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8202E68-60C2-4B00-9CC1-67D4E9C1EBA8}.Debug|Any CPU.ActiveCfg = Debug
+		{B8202E68-60C2-4B00-9CC1-67D4E9C1EBA8}.Release|Any CPU.ActiveCfg = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {17FE20FE-74A7-47DD-9DEF-A38060E1D328}
+	EndGlobalSection
+EndGlobal

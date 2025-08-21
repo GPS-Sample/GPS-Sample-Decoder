@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D132FC07-E2C7-4800-81C6-9E0232C23660}</ProjectGuid>
+    <ProjectTypeGuids>{A3F8F2AB-B479-4A4A-A458-A89E7DC349F1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>GPSSampleDecoder</RootNamespace>
+    <AssemblyName>GPSSampleDecoder</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkIdentifier>Xamarin.Mac</TargetFrameworkIdentifier>
+    <MonoMacResourcePrefix>Resources</MonoMacResourcePrefix>
+    <ReleaseVersion>1.0</ReleaseVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\build\MacOS\bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodesigningKey>Mac Developer</CodesigningKey>
+    <CreatePackage>false</CreatePackage>
+    <EnablePackageSigning>false</EnablePackageSigning>
+    <IncludeMonoRuntime>false</IncludeMonoRuntime>
+    <UseSGen>true</UseSGen>
+    <UseRefCounting>true</UseRefCounting>
+    <LinkMode>None</LinkMode>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\build\MacOS\bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CreatePackage>true</CreatePackage>
+    <EnablePackageSigning>false</EnablePackageSigning>
+    <IncludeMonoRuntime>true</IncludeMonoRuntime>
+    <UseSGen>true</UseSGen>
+    <UseRefCounting>true</UseRefCounting>
+    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <LinkMode>SdkOnly</LinkMode>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="Xamarin.Mac" />
+    <Reference Include="System.IO.Packaging">
+      <HintPath>..\MacOS\packages\System.IO.Packaging.8.0.0\lib\netstandard2.0\System.IO.Packaging.dll</HintPath>
+    </Reference>
+    <Reference Include="DocumentFormat.OpenXml.Framework">
+      <HintPath>packages\DocumentFormat.OpenXml.Framework.3.0.1\lib\netstandard2.0\DocumentFormat.OpenXml.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Json">
+      <HintPath>..\MacOS\packages\System.Text.Json.8.0.1\lib\netstandard2.0\System.Text.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="BouncyCastle.Cryptography">
+      <HintPath>packages\BouncyCastle.Cryptography.2.2.1\lib\netstandard2.0\BouncyCastle.Cryptography.dll</HintPath>
+    </Reference>
+    <Reference Include="DocumentFormat.OpenXml">
+      <HintPath>..\MacOS\packages\DocumentFormat.OpenXml.2.11.3\lib\netstandard2.0\DocumentFormat.OpenXml.dll</HintPath>
+    </Reference>
+
+    <Reference Include="System.Runtime.CompilerServices.Unsafe">
+      <HintPath>..\MacOS\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces">
+      <HintPath>..\MacOS\packages\Microsoft.Bcl.AsyncInterfaces.8.0.0\lib\netstandard2.1\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Encodings.Web">
+      <HintPath>..\MacOS\packages\System.Text.Encodings.Web.8.0.0\lib\netstandard2.0\System.Text.Encodings.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="BouncyCastle.Crypto">
+      <HintPath>..\MacOS\packages\BouncyCastle.1.8.9\lib\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.IO.Compression" />
+  </ItemGroup>
+  <ItemGroup>
+    <ImageAsset Include="MacUI\Assets.xcassets\AppIcon.appiconset\Contents.json" />
+    <ImageAsset Include="MacUI\Assets.xcassets\AppIcon.appiconset\AppIcon-256.png" />
+    <ImageAsset Include="MacUI\Assets.xcassets\AppIcon.appiconset\AppIcon-256%402x.png" />
+    <ImageAsset Include="MacUI\Assets.xcassets\AppIcon.appiconset\AppIcon-512.png" />
+    <ImageAsset Include="MacUI\Assets.xcassets\AppIcon.appiconset\AppIcon-512%402x.png" />
+    <ImageAsset Include="MacUI\Assets.xcassets\Contents.json" />
+    <ImageAsset Include="MacUI\Assets.xcassets\cdc_push pin_dark.imageset\cdc_push pin_dark.png" />
+    <ImageAsset Include="MacUI\Assets.xcassets\cdc_push pin_dark.imageset\Contents.json" />
+    <ImageAsset Include="MacUI\Assets.xcassets\cdc_push_pin.imageset\cdc_push_pin.png" />
+    <ImageAsset Include="MacUI\Assets.xcassets\cdc_push_pin.imageset\Contents.json" />
+    <ImageAsset Include="MacUI\Assets.xcassets\AppIcon.appiconset\cdc_push pin_dark_32x32.png" />
+    <ImageAsset Include="MacUI\Assets.xcassets\AppIcon.appiconset\cdc_push pin_dark_64x64.png" />
+    <ImageAsset Include="MacUI\Assets.xcassets\AppIcon.appiconset\cdc_push pin_dark_32x32 1.png" />
+    <ImageAsset Include="MacUI\Assets.xcassets\AppIcon.appiconset\cdc_push pin_dark_16x16.png" />
+    <ImageAsset Include="MacUI\Assets.xcassets\AppIcon.appiconset\cdc_push pin_dark_256x256.png" />
+    <ImageAsset Include="MacUI\Assets.xcassets\AppIcon.appiconset\cdc_push pin_dark_128x128.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="MacUI\Resources\" />
+  </ItemGroup>
+    <ItemGroup>
+    <None Include="..\MacOS\packages.config" />
+    <None Include="packages.config" />
+    <None Include="Info.plist" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="MacUI\Main.cs" />
+    <Compile Include="MacUI\AppDelegate.cs" />
+    <Compile Include="MacUI\ViewController.cs" />
+    <Compile Include="MacUI\ViewController.designer.cs">
+      <DependentUpon>MacUI\ViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Static\Macros.cs" />
+    <Compile Include="Utils\ExcelWriter.cs" />
+    <Compile Include="Utils\CSVWriter.cs" />
+    <Compile Include="Utils\EncryptionUtil.cs" />
+    <Compile Include="Utils\SaveUtils.cs" />
+    <Compile Include="DataObjects\EnumerationTeam.cs" />
+    <Compile Include="DataObjects\Configuration.cs" />
+    <Compile Include="DataObjects\Field.cs" />
+    <Compile Include="DataObjects\LatLon.cs" />
+    <Compile Include="DataObjects\FilterOperator.cs" />
+    <Compile Include="DataObjects\EnumArea.cs" />
+    <Compile Include="DataObjects\Study.cs" />
+    <Compile Include="DataObjects\Location.cs" />
+    <Compile Include="DataObjects\MapTileRegion.cs" />
+    <Compile Include="DataObjects\Rule.cs" />
+    <Compile Include="DataObjects\Filter.cs" />
+    <Compile Include="Workers\DecodeWorker.cs" />
+    <Compile Include="Delegates\Delegates.cs" />
+    <Compile Include="MacUI\ViewController_Decode.cs">
+      <DependentUpon>MacUI\ViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MacUI\ViewController_Save.cs">
+      <DependentUpon>MacUI\ViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Workers\SaveWorker.cs" />
+    <Compile Include="MacUI\DialogViewController.cs" />
+    <Compile Include="MacUI\DialogViewController.designer.cs">
+      <DependentUpon>DialogViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Utils\ExcelUtils.cs" />
+    <Compile Include="DataObjects\CollectionTeam.cs" />
+    <Compile Include="DataObjects\EnumerationItem.cs" />
+    <Compile Include="DataObjects\FieldData.cs" />
+    <Compile Include="DataObjects\FieldDataOption.cs" />
+    <Compile Include="DataObjects\FieldOption.cs" />
+    <Compile Include="MacUI\WIndowDialogViewController.cs" />
+    <Compile Include="MacUI\WIndowDialogViewController.designer.cs">
+      <DependentUpon>WIndowDialogViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Utils\ImageUtils.cs" />
+    <Compile Include="DataObjects\Image.cs" />
+    <Compile Include="DataObjects\ImageList.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <InterfaceDefinition Include="MacUI\Main.storyboard" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" />
+  <Import Project="packages\HarfBuzzSharp.NativeAssets.macOS.7.3.0.1\build\xamarinmac2.0\HarfBuzzSharp.NativeAssets.macOS.targets" Condition="Exists('packages\HarfBuzzSharp.NativeAssets.macOS.7.3.0.1\build\xamarinmac2.0\HarfBuzzSharp.NativeAssets.macOS.targets')" />
+  <Import Project="packages\SkiaSharp.NativeAssets.macOS.2.88.7\build\xamarinmac2.0\SkiaSharp.NativeAssets.macOS.targets" Condition="Exists('packages\SkiaSharp.NativeAssets.macOS.2.88.7\build\xamarinmac2.0\SkiaSharp.NativeAssets.macOS.targets')" />
+  <Import Project="..\MacOS\packages\Microsoft.Extensions.Logging.Abstractions.6.0.0\build\Microsoft.Extensions.Logging.Abstractions.targets" Condition="Exists('..\MacOS\packages\Microsoft.Extensions.Logging.Abstractions.6.0.0\build\Microsoft.Extensions.Logging.Abstractions.targets')" />
+</Project>
