@@ -94,7 +94,7 @@ If you are interested in fixing issues and contributing directly to the code bas
   
 ## Community
 
-The GPSSample community can be found on [Discord](https://discord.com/invite/A8EYY9xV) where you can ask questions, voice ideas, and share your projects with other people.
+The GPSSample community can be found on [Discord](https://discord.com/channels/1369369021761327134/1369369022709370985) where you can ask questions, voice ideas, and share your projects with other people.
 
 Do note that our [Code of Conduct](CODE-OF-CONDUCT.pdf) applies to all GPSSample community channels. Users are **highly encouraged** to read and adhere to them to avoid repercussions.
 
