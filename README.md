@@ -8,7 +8,7 @@
 [![Platform](https://img.shields.io/badge/Platforms-Windows,Mac-3B90C4.svg?style=flat)](https://www.android.com)
 [![Language](https://img.shields.io/badge/Language-CSharp-blue.svg?style=flat)](https://kotlinlang.org)
 [![License](https://img.shields.io/badge/License-GPL%20v3-blue.svg?style=flat)](LICENSE.md)
-[![Chat](https://img.shields.io/badge/Chat-on%20Discord-60C53A.svg?style=flat)](https://discord.com/invite/A8EYY9xV)
+[![Chat](https://img.shields.io/badge/Chat-on%20Discord-60C53A.svg?style=flat)](https://discord.com/channels/1369369021761327134/1369369022709370985)
 [![Covenant](https://img.shields.io/badge/Contributor%20Covenant-1.19.24-469C9C.svg?style=flat)](CODE-OF-CONDUCT.pdf)
 
 ## About
