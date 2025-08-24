@@ -1,10 +1,15 @@
-﻿using DocumentFormat.OpenXml.VariantTypes;
+﻿/*
+ * Copyright (C) 2022-2025 Georgia Tech Research Institute
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ *
+ * See the LICENSE file for the full license text.
+*/
+using DocumentFormat.OpenXml.VariantTypes;
 using GPSSampleDecoder.DataObjects;
 using GPSSampleDecoder.Static;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
-
 
 namespace GPSSampleDecoder.ViewModels
 {
@@ -47,11 +52,11 @@ namespace GPSSampleDecoder.ViewModels
             this.configurations = configurations;
 
             HasConfigPath = true;
-            // Finally, handle the case where the operation 
-            // succeeded.
-            // enable 
+                // Finally, handle the case where the operation 
+                // succeeded.
+                // enable 
 
-            if (decryptedConfiguration.dbVersion != dbVersion)
+            if (decryptedConfiguration.dbVersion < dbVersion)
             {
                MessageBox.Show("The selected configuration is based on database version #" + decryptedConfiguration.dbVersion + " and is not compatable with this version of GPSSampleDecoder, which is based on version #" + dbVersion.ToString()+ ".", StaticStrings.kAppTitle, MessageBoxButton.OK, MessageBoxImage.Error);
                DecodeComplete = false;
