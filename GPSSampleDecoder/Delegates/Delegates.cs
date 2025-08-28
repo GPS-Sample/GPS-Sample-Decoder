@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 namespace GPSSampleDecoder.Delegates
 {
    public delegate void DecodePercentDone(int percent);
-   public delegate void DecodeCompleted(RunWorkerCompletedEventArgs e, string rawJSON, List<Configuration>configurations);
+   public delegate void DecodeCompleted(RunWorkerCompletedEventArgs e, string rawJSON, List<Configuration>configurations, ImageList imageList);
    public delegate void DecodeError(string message);
 
    public delegate void SavePercentDone(int percent);

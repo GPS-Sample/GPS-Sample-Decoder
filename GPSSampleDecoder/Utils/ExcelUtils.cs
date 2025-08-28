@@ -310,30 +310,31 @@ namespace GPSSampleDecoder.Utils
          foreach (var enumArea in data.enumAreas)
          {
 				foreach (var location in enumArea.locations)
-            {
+                {
 					foreach (var enumItem in location.enumerationItems)
 					{
-						// filter out block field containers that have no entries
-						bool shouldSkip = false;
+                        // filter out block field containers that have no entries
+                        int fieldEntryCount = 0;
 
-                  foreach (var fd in enumItem.fieldDataList)
-                  {
-                     DataObjects.Field field = getField(fd.fieldUuid, data.studies);
-                     if (field != null && field.fields?.Count > 0) // this is a block field container
-                     {
-                        if (fd.numberValue == null || fd.numberValue == 0)
+                        foreach (var fd in enumItem.fieldDataList)
                         {
-                           shouldSkip = true;
+                            DataObjects.Field field = getField(fd.fieldUuid, data.studies);
+                            if (field != null && field.fields?.Count > 0) // this is a block field container
+                            {
+                                if ((fd.numberValue != null && fd.numberValue > 0) 
+                                    || (fd.textValue != null && fd.textValue.Length > 0))
+                                {
+                                    fieldEntryCount++;
+                                }
+                            }
                         }
-                     }
-                  }
 
-                  if (shouldSkip)
-						{
-							continue;
-						}
+                        if (fieldEntryCount == 0)
+                        {
+                            continue;
+                        }
 
-						Dictionary<int, List<string>> sorted = new Dictionary<int, List<string>>();
+                        Dictionary<int, List<string>> sorted = new Dictionary<int, List<string>>();
 
 						// largest is the number of rows we have to add
 						int largest = addFieldDataList(headerFields, sorted, enumItem, data.studies);
