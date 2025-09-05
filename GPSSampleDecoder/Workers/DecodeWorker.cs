@@ -123,34 +123,27 @@ namespace GPSSampleDecoder.Workers
                     string configFileName = directoryPath + "/" + Path.GetFileNameWithoutExtension(pathToConfiguration) + ".json";
                     string imageFileName = directoryPath + "/" + Path.GetFileNameWithoutExtension(pathToConfiguration) + "-img.json";
 
+                    try
+                    {
+                        ZipFile.ExtractToDirectory(pathToConfiguration, directoryPath);
+                    }
+                    catch ( Exception ex )
+                    {
+                    }
+
                     if (File.Exists(configFileName))
                     {
-                        File.Delete(configFileName);
+                        decodeConfig(e, configFileName);
                     }
-
-                    if (File.Exists(imageFileName))
-                    {
-                        File.Delete(imageFileName);
-                    }
-
-                    ZipFile.ExtractToDirectory(pathToConfiguration, directoryPath);
-
-                    decodeConfig(e, configFileName);
 
                     worker.ReportProgress(50);
 
-                    decodeImages(e, imageFileName, directoryPath);
-                    worker.ReportProgress(100);
-
-                    if (File.Exists(configFileName))
-                    {
-                        File.Delete(configFileName);
-                    }
-
                     if (File.Exists(imageFileName))
                     {
-                        File.Delete(imageFileName);
+                        decodeImages(e, imageFileName, directoryPath);
                     }
+
+                    worker.ReportProgress(100);
                 }
 
                 worker.ReportProgress(100);
