@@ -11,7 +11,6 @@ using GPSSampleDecoder.DataObjects;
 using GPSSampleDecoder.Delegates;
 using GPSSampleDecoder.Static;
 using System.Collections.Generic;
-using System.Windows.Forms;
 using ImageList = GPSSampleDecoder.DataObjects.ImageList;
 
 namespace GPSSampleDecoder.Workers

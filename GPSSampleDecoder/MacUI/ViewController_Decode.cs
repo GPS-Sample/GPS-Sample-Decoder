@@ -17,8 +17,10 @@ namespace GPSSampleDecoder
 {
    public partial class ViewController : NSViewController
    {
+      private int dbVersion = 318;
       private bool _decodeComplete;
-      private Configuration decryptedConfiguration = null;
+		private ImageList imageList = null;
+		private Configuration decryptedConfiguration = null;
       private List<Configuration> configurations = new List<Configuration>();
       private string rawJSON = null;
 
@@ -31,7 +33,7 @@ namespace GPSSampleDecoder
          }
       }
 
-      private void DecodeCompleted(RunWorkerCompletedEventArgs e, string rawJSON, List<Configuration>configurations)
+      private void DecodeCompleted(RunWorkerCompletedEventArgs e, string rawJSON, List<Configuration> configurations, ImageList imageList )
       // This event handler deals with the results of the
       // background operation.
       // private void decodeWorker_RunWorkerCompleted(
@@ -62,6 +64,7 @@ namespace GPSSampleDecoder
             DecodeComplete = true;
             decryptedConfiguration = e.Result as Configuration;
             this.rawJSON = rawJSON;
+            this.imageList = imageList;
             this.configurations = configurations;
             decodeButton.Enabled = true;
             outputBrowseButton.Enabled = true;
@@ -71,12 +74,12 @@ namespace GPSSampleDecoder
             {
                try
                {
-                  if (decryptedConfiguration.dbVersion != 318)
+                  if (decryptedConfiguration.dbVersion < dbVersion)
                   {
                      //DecodeComplete = false;
                      //outputBrowseButton.Enabled = false;
                      //decryptedConfiguration = null;
-                     this.errorMsg.StringValue = "Database version mismatch. Expected version #318, got version #" + decryptedConfiguration.dbVersion;
+                     this.errorMsg.StringValue = "Database version mismatch. Expected version #" + dbVersion + ", got version #" + decryptedConfiguration.dbVersion;
 							this.errorMsg.TextColor = NSColor.Red;
 						}
 						else
