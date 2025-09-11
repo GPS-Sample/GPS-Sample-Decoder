@@ -13,52 +13,24 @@
 
 ## About
 
-**What is the GPSSample App?**
+**What is the GPSSample Decoder?**
 
-GPSSample is an Android-based mobile application to facilitate rapid
-statistical sampling and navigation back to selected locations in the
-field when conducting household surveys and rapid assessments. The app
-is designed to streamline the enumeration and statistical sampling
-process and can be used in areas with limited internet and cell phone
-connectivity.
+The GPSSample Decoder is used to decrypt data from a study conducted in GPSSample using the study configuration with a password. The study password is set by the study Administrator in the GPSSample app and is case sensitive.  
+Output from the GPSSample Decoder includes:
 
-**Why now:**  The current process for enumeration and sampling (described below) is inefficient and labor intensive. It is recommended that routine immunization coverage surveys use probability sampling methods and generally use census data derived from enumeration areas as the sampling frame. 
+1)	An Excel workbook with all GPSSample data from enumerated, sampled, and surveyed households and points of interest.
+2)	Field photos taken of households and of points of interest
+3)	A decrypted configuration file (JSON) with all data from the GPSSample study
 
-**Existing process:** As many countries lack up-to-date population sampling frames, teams are often sent to map and list households (HHs) in enumeration areas using a set of devices. Upon returning to an area with Wi-Fi, data from each device must be uploaded to a server, collated, and reviewed to ensure that no sections of the enumeration areas were missed during mapping. Once the sampling frame is verified, a sample of HHs can be drawn and another team is deployed to navigate to selected HHs to conduct the coverage survey. 
+If multiple files from the same study are selected (ex. supervisor_day1, supervisor_day2, supervisor_day3), all will be decrypted and compiled into one Excel workbook and one JSON. The GPSSample Decoder allows the user to select where to save the outputs.
 
-**Improved process:** By streamlining this enumeration, statistical sampling, and survey process into a single field visit, GPSSample can substantially reduce time and costs associated with conducting coverage surveys, which has broad benefits to ministries of health and public health partners. In GPSSample, teams can collect data used in providing services to the most vulnerable populations such as locations of health facilities and vaccination points and missing villages in hard-to-reach places that are often overlooked in microplanning efforts for immunization services.
+**Key GPSSample Decoder principles:**
+•	The GPSSample Decoder does not require administrative privileges to use or run this application which would inhibit its usability.
+•	The GPSSample Decoder includes a package of files required to run the code as a user.
 
-**GPSSample's Tiered roles:**
+Technical Specifications: Versions of the GPSSample Decoder are available for Windows and Mac computers. Check that the GPSSample Decoder is compatible with the version of the GPSSample app you are using.
 
-- The **Admin** sets up the configuration for an area, study questions,
-  and defines sampling design
-
-- The **Supervisor** defines teams, manages field work, selects sample,
-  reviews data from listing and from survey
-
-- The **Enumerator** maps and lists households, collects points of
-  interest, syncs data with supervisor
-
-- The **Data Collector** navigates back to selected sample, and
-  completes the longer survey
-
-<div>
-  <br/>
-</div>
-
-**Selected Use Cases:**
-
-1.	**HH surveys:** A district-level HH malaria survey is planned to estimate malaria prevalence with two strata: urban and rural clusters. 10 HHs will be selected in each urban cluster and 14 HHs will be selected each rural cluster. High precision is required as the country is approaching elimination. GPSSample is used to map HHs in clusters and determine eligibility for the HH survey and for an upcoming indoor residual spraying (IRS) campaign. Three teams working in a cluster synchronize their data with the field supervisor who draws the sample in GPSSample the same day the listing is completed. In GPSSample, teams use points of interest and HH listing details collected during enumeration to navigate to HHs selected for the HH survey. A month later, IRS teams use IRS eligibility data to ensure all eligible HHs have been visited.
-
-2.	**Zero dose children:** Children missing the first dose of diphtheria, tetanus, and pertussis (DTP) containing vaccine (“zero dose”) account for an estimated 50% of vaccine-preventable deaths. Zero dose children are challenging to identify since they often reside in urban areas, remote communities, or conflict-affected areas, where population estimates are unreliable. By offering the ability to rapidly conduct enumeration and mapping of targeted areas, GPSSample provides a valuable solution for identifying zero dose children. Through HH listing, GPS coordinates and contextual information can be collected, ensuring precise HH location and incorporating details into digital catchment maps. In conflict zones with restricted team mobility, satellite imagery is used to identify inhabited structures (HHs). Once structures are identified, teams can safely conduct HH listing to gather information on zero dose individuals. GPSSample streamlines the zero-dose listing process, enhances mapping, and facilitates effective offline navigation to efficiently verify vaccination status. This allows the Ministry of Health to plan targeted immunization campaigns for areas with zero dose children. 
-
-What are your ideal use cases for GPSSample? Please reach out and let us know!
-
-**Technical Specifications:** Android 8+ mobile app, handshakes with existing survey tool (ODK, Kobo, or Ona), uses Mapbox basemaps, QR code data transfer, data export to local device, encrypted.
-
-**Sampling Methods:** Simple random sample, cluster-based sample
-
-**Advantages:** Open Source, designed for use in low resource settings, can add clusters in four ways: import GeoJSON files, draw them in the map, walk the boundaries, or tap on the map and specify the cluster size, leverages existing spatial datasets, free, and available in multiple languages (English, French, Spanish, Portuguese, Russian, and Bahasa)
+**Technical Specifications:** Versions of the GPSSample Decoder are available for Windows and Mac computers. Check that the GPSSample Decoder is compatible with the version of the GPSSample app you are using.
 
 ## Training Guides
 
@@ -66,7 +38,8 @@ Visit [https://www.gpssample.org/resources/training-guides](https://www.gpssampl
 
 ## Development Environment
 
-* Windows PC
+* Microsoft Windows PC
+* Apple Mac Computer
 * Visual Studio Community Edition 2022
   
 ## Contributing
@@ -80,7 +53,7 @@ If you are interested in fixing issues and contributing directly to the code bas
 
 ## Build Instructions
 
-* Install Visual Studio Community Edition 2022 on your Windows PC
+* Install Visual Studio Community Edition 2022 on your Windows or Mac computer
 * Clone the repo
 * The main branch is main and is read-only on GitHub.  You can build/modify the main branch, but you will not be allowed to push your changes to main to GitHub. See [How to Contribute](How-to-Contribute.md) for instructions.
 * Open the project in Visual Studio  
