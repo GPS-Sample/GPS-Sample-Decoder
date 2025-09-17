@@ -25,7 +25,7 @@ namespace GPSSampleDecoder.DataObjects
       public double? numberValue { get; set; }
       public long? dateValue { get; set; }
 		public int? dropdownIndex { get; set; }
-		public int blockNumber { get; set; }
+		public int? blockNumber { get; set; }
 		public List<FieldDataOption> fieldDataOptions { get; set; }
 
 		public FieldData() { }
