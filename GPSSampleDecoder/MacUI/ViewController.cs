@@ -170,7 +170,7 @@ namespace GPSSampleDecoder
          dlg.CanChooseFiles = true;
 			dlg.CanChooseDirectories = false;
 			dlg.AllowsMultipleSelection = true;
-			dlg.AllowedFileTypes = new string[] { "zip" };
+			dlg.AllowedFileTypes = new string[] { "zip", "json" };
 
          PathsToConfigurations.Clear();
 
