@@ -118,10 +118,9 @@ namespace GPSSampleDecoder.Workers
                 {
                     worker.ReportProgress(10);
 
-                    string directoryPath = Path.GetDirectoryName(pathToConfiguration);
+                    string directoryPath = Path.GetDirectoryName(pathToConfiguration) + "/tmp";
 
-                    string configFileName = directoryPath + "/" + Path.GetFileNameWithoutExtension(pathToConfiguration) + ".json";
-                    string imageFileName = directoryPath + "/" + Path.GetFileNameWithoutExtension(pathToConfiguration) + "-img.json";
+                    Directory.CreateDirectory(directoryPath);
 
                     try
                     {
@@ -131,19 +130,20 @@ namespace GPSSampleDecoder.Workers
                     {
                     }
 
-                    if (File.Exists(configFileName))
+                    foreach (string file in Directory.GetFiles(directoryPath))
                     {
-                        decodeConfig(e, configFileName);
+                        if (file.Contains( "-img" ))
+                        {
+                            decodeImages(e, file, directoryPath);
+                        }
+                        else
+                        {
+                            decodeConfig(e, file);
+                        }
+                        worker.ReportProgress(50);
                     }
 
-                    worker.ReportProgress(50);
-
-                    if (File.Exists(imageFileName))
-                    {
-                        decodeImages(e, imageFileName, directoryPath);
-                    }
-
-                    worker.ReportProgress(100);
+                    Directory.Delete(directoryPath, recursive: true);
                 }
 
                 worker.ReportProgress(100);

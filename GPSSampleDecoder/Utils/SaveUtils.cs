@@ -62,7 +62,7 @@ namespace GPSSampleDecoder.Utils
             {
                 foreach (var image in imageList.images)
                 {
-                    string outpath = Path.Combine(path, image.uuid + ".JPG");
+                    string outpath = Path.Combine(path, image.locationUuid + ".JPG");
                     byte[] bytes = Convert.FromBase64String(image.data);
                     File.WriteAllBytes(outpath, bytes);
                 }
