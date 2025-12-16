@@ -1171,7 +1171,7 @@ namespace GPSSampleDecoder.Utils
                         {
                             if (childField.uuid == uuid)
                             {
-                                return field;
+                                return childField;
                             }
                         }
                     }
