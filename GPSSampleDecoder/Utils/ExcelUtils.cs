@@ -424,7 +424,7 @@ namespace GPSSampleDecoder.Utils
             Row headerRow = new Row();
             headerRow.Append(CreateCell("Enumeration Area Name"));
             headerRow.Append(CreateCell("Location UUID"));
-            headerRow.Append(CreateCell("Enumerated"));
+            headerRow.Append(CreateCell("Visited"));
             headerRow.Append(CreateCell("Enumeration Item UUID"));
             headerRow.Append(CreateCell("SubAddress"));
 
@@ -512,7 +512,7 @@ namespace GPSSampleDecoder.Utils
                 {
                     string test = location.description;
 
-                    if (location.enumerationItems.Count == 0)
+                    if (!location.isLandmark && location.enumerationItems.Count == 0)
                     {
                         Row eiRow = new Row();
 
@@ -1027,7 +1027,7 @@ namespace GPSSampleDecoder.Utils
             wSheetPart.Worksheet = new Worksheet(sheetData);
             Row headerRow = new Row();
             headerRow.Append(CreateCell("Enumeration Area Name"));
-            headerRow.Append(CreateCell("# of enumeration items"));
+            headerRow.Append(CreateCell("# of locations"));
             headerRow.Append(CreateCell("# of multi-households"));
             headerRow.Append(CreateCell("# Enumerated"));
             headerRow.Append(CreateCell("# Incomplete - enumeration"));
@@ -1045,7 +1045,7 @@ namespace GPSSampleDecoder.Utils
 
             foreach (var enumArea in data.enumAreas)
             {
-                int numEnumerationItems = 0;
+                int numLocations = 0;
                 int numEnumerated = 0;
                 int numEnumerationsIncomplete = 0;
                 int numEligible = 0;
@@ -1063,7 +1063,14 @@ namespace GPSSampleDecoder.Utils
                     }
                     else
                     {
-                        numEnumerationItems += location.enumerationItems.Count;
+                        if (location.enumerationItems.Count > 0)
+                        {
+                            numLocations += location.enumerationItems.Count;
+                        }
+                        else
+                        {
+                            numLocations += 1;
+                        }
 
                         if (location.enumerationItems.Count > 1)
                         {
@@ -1105,7 +1112,7 @@ namespace GPSSampleDecoder.Utils
                 Row row = new Row();
 
                 row.Append(CreateCell(enumArea.name));
-                row.Append(CreateCell(numEnumerationItems.ToString()));
+                row.Append(CreateCell(numLocations.ToString()));
                 row.Append(CreateCell(numMultiHouseholds.ToString()));
                 row.Append(CreateCell(numEnumerated.ToString()));
                 row.Append(CreateCell(numEnumerationsIncomplete.ToString()));
