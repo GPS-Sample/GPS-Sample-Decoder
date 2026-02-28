@@ -17,14 +17,13 @@ namespace GPSSampleDecoder
 {
    public partial class ViewController : NSViewController
    {
-      private int dbVersion = 318;
       private bool _decodeComplete;
 		private ImageList imageList = null;
 		private Configuration decryptedConfiguration = null;
       private List<Configuration> configurations = new List<Configuration>();
       private string rawJSON = null;
 
-      public bool DecodeComplete
+        public bool DecodeComplete
       {
          get => _decodeComplete;
          set
@@ -41,7 +40,7 @@ namespace GPSSampleDecoder
       {
          // First, handle the case where an exception was thrown.
          if (e.Error != null)
-         {
+         {               
             decryptedConfiguration = null;
             //MessageBox.Show(StaticStrings.kNotValidConfig);
             // show dialog

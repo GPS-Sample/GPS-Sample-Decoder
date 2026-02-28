@@ -829,31 +829,67 @@ namespace GPSSampleDecoder.Utils
             headerRow.Append(CreateCell("Field Date"));
             headerRow.Append(CreateCell("Field Time"));
             headerRow.Append(CreateCell("Field Option"));
-            // filters
-            // find number of field operators
-
 
             sheetData.AppendChild(headerRow);
 
             foreach (var study in data.studies)
             {
-                Row studyRow = new Row();
-                studyRow.Append(CreateCell(study.name));
-                studyRow.Append(CreateCell(study.samplingMethod));
-                studyRow.Append(CreateCell(study.sampleType));
-                studyRow.Append(CreateCell($"{study.sampleSize}"));
-
-                //sheetData.Append(studyRow);
-
-                foreach (var field in study.fields)
+                if (study.samplingMethod == "Strata" && study.stratas.Count > 0)
                 {
-                    (studyRow, sheetData) = addField(field, studyRow, sheetData, 0);
-
-                    if (field.fields != null)
+                    foreach (var strata in study.stratas)
                     {
-                        foreach (var childField in field.fields)
+                        Row studyRow = new Row();
+                        studyRow.Append(CreateCell(study.name));
+                        studyRow.Append(CreateCell( "Strata-" + strata.name));
+                        studyRow.Append(CreateCell(strata.sampleType));
+                        studyRow.Append(CreateCell($"{strata.sampleSize}"));
+
+                        if (study.fields.Count == 0)
                         {
-                            (studyRow, sheetData) = addField(childField, studyRow, sheetData, field.index);
+                            sheetData.Append(studyRow);
+                        }
+                        else
+                        {
+                            foreach (var field in study.fields)
+                            {
+                                (studyRow, sheetData) = addField(field, studyRow, sheetData, 0);
+
+                                if (field.fields != null)
+                                {
+                                    foreach (var childField in field.fields)
+                                    {
+                                        (studyRow, sheetData) = addField(childField, studyRow, sheetData, field.index);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    Row studyRow = new Row();
+                    studyRow.Append(CreateCell(study.name));
+                    studyRow.Append(CreateCell(study.samplingMethod));
+                    studyRow.Append(CreateCell(study.sampleType));
+                    studyRow.Append(CreateCell($"{study.sampleSize}"));
+
+                    if (study.fields.Count == 0)
+                    {
+                        sheetData.Append(studyRow);
+                    }
+                    else
+                    {
+                        foreach (var field in study.fields)
+                        {
+                            (studyRow, sheetData) = addField(field, studyRow, sheetData, 0);
+
+                            if (field.fields != null)
+                            {
+                                foreach (var childField in field.fields)
+                                {
+                                    (studyRow, sheetData) = addField(childField, studyRow, sheetData, field.index);
+                                }
+                            }
                         }
                     }
                 }

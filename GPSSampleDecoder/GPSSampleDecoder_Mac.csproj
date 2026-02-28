@@ -154,6 +154,7 @@
     <Compile Include="Utils\ImageUtils.cs" />
     <Compile Include="DataObjects\Image.cs" />
     <Compile Include="DataObjects\ImageList.cs" />
+    <Compile Include="DataObjects\Strata.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MacUI\Main.storyboard" />
