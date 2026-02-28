@@ -171,6 +171,7 @@
     <Compile Include="DataObjects\Location.cs" />
     <Compile Include="DataObjects\MapTileRegion.cs" />
     <Compile Include="DataObjects\Rule.cs" />
+    <Compile Include="DataObjects\Strata.cs" />
     <Compile Include="DataObjects\Study.cs" />
     <Compile Include="Delegates\Delegates.cs" />
     <Compile Include="Static\Macros.cs" />

@@ -15,7 +15,7 @@ namespace GPSSampleDecoder.ViewModels
 {
     public partial class MainWindowViewModel : INotifyPropertyChanged
     {
-        private int dbVersion = 318;
+        private int dbVersion = 322;
         private Configuration decryptedConfiguration = null;
 
         private ImageList imageList = null;
