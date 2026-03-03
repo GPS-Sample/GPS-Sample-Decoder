@@ -73,15 +73,15 @@ namespace GPSSampleDecoder
             {
                try
                {
-                  if (decryptedConfiguration.dbVersion < dbVersion)
+                  if (decryptedConfiguration.dbVersion < minDbVersion)
                   {
                      //DecodeComplete = false;
                      //outputBrowseButton.Enabled = false;
                      //decryptedConfiguration = null;
-                     this.errorMsg.StringValue = "Database version mismatch. Expected version #" + dbVersion + ", got version #" + decryptedConfiguration.dbVersion;
+                     this.errorMsg.StringValue = "Database version mismatch. Expected version #" + minDbVersion + ", got version #" + decryptedConfiguration.dbVersion;
 							this.errorMsg.TextColor = NSColor.Red;
-						}
-						else
+				  }
+				  else
                   {
 							this.errorMsg.StringValue = StaticStrings.kDecodeComplete;
 							this.errorMsg.TextColor = NSColor.Green;
