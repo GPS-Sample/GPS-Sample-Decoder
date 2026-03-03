@@ -16,6 +16,7 @@ namespace GPSSampleDecoder.ViewModels
     public partial class MainWindowViewModel : INotifyPropertyChanged
     {
         private int dbVersion = 322;
+        private int minDbVersion = 321;
         private Configuration decryptedConfiguration = null;
 
         private ImageList imageList = null;
@@ -59,9 +60,9 @@ namespace GPSSampleDecoder.ViewModels
                 // succeeded.
                 // enable 
 
-                if (decryptedConfiguration.dbVersion < dbVersion)
+                if (decryptedConfiguration.dbVersion < minDbVersion)
                 {
-                    MessageBox.Show("The selected configuration is based on database version #" + decryptedConfiguration.dbVersion + " and is not compatable with this version of GPSSampleDecoder, which is based on version #" + dbVersion.ToString() + ".", StaticStrings.kAppTitle, MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("The selected configuration is based on database version #" + decryptedConfiguration.dbVersion + " and is not compatable with this version of GPSSampleDecoder, which is based on version #" + minDbVersion.ToString() + ".", StaticStrings.kAppTitle, MessageBoxButton.OK, MessageBoxImage.Error);
                     DecodeComplete = false;
                     decryptedConfiguration = null;
                     PercentDecoded = 0;
