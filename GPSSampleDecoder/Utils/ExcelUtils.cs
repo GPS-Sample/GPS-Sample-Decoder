@@ -384,6 +384,7 @@ namespace GPSSampleDecoder.Utils
             headerRow.Append(CreateCell("Latitude"));
             headerRow.Append(CreateCell("Longitude"));
             headerRow.Append(CreateCell("Altitude"));
+            headerRow.Append(CreateCell("Photo Taken"));
 
             // enumeration item
 
@@ -403,6 +404,16 @@ namespace GPSSampleDecoder.Utils
                         landmarkRow.Append(CreateCell($"{location.latitude}"));
                         landmarkRow.Append(CreateCell($"{location.longitude}"));
                         landmarkRow.Append(CreateCell($"{location.altitude}"));
+
+                        if (location.imageUuid.Length > 0)
+                        {
+                            landmarkRow.Append(CreateCell("Yes"));
+                        }
+                        else
+                        {
+                            landmarkRow.Append(CreateCell("No"));
+                        }
+
                         sheetData.AppendChild(landmarkRow);
                     }
 
@@ -458,6 +469,7 @@ namespace GPSSampleDecoder.Utils
             headerRow.Append(CreateCell("Longitude"));
             headerRow.Append(CreateCell("Altitude"));
             headerRow.Append(CreateCell("Multi Household"));
+            headerRow.Append(CreateCell("Photo Taken"));
             headerRow.Append(CreateCell("Enumerator Name"));
             headerRow.Append(CreateCell("Collector Name"));
             headerRow.Append(CreateCell("Enumerated"));
@@ -596,6 +608,16 @@ namespace GPSSampleDecoder.Utils
                             {
                                 eiRow.Append(CreateCell("No"));
                             }
+
+                            if (location.imageUuid.Length > 0)
+                            {
+                                eiRow.Append(CreateCell("Yes"));
+                            }
+                            else
+                            {
+                                eiRow.Append(CreateCell("No"));
+                            }
+
                             eiRow.Append(CreateCell(enumItem.enumeratorName));
                             eiRow.Append(CreateCell(enumItem.collectorName));
 
