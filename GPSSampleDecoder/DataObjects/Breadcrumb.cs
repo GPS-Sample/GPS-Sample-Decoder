@@ -4,21 +4,20 @@
  *
  * See the LICENSE file for the full license text.
 */
+
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GPSSampleDecoder.DataObjects
 {
-    public class LatLon
-    {
+	public class Breadcrumb
+	{
         public string uuid { get; set; }
         public long creationDate { get; set; }
+        public string enumAreaUuid { get; set; }
         public double latitude { get; set; }
         public double longitude { get; set; }
+        public string groupId { get; set; }
 
-        public LatLon() { }
-    }
+        public Breadcrumb() {}
+	}
 }

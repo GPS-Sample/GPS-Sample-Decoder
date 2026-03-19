@@ -4,8 +4,10 @@
  *
  * See the LICENSE file for the full license text.
 */
+using DocumentFormat.OpenXml.Vml;
 using GPSSampleDecoder.DataObjects;
 using GPSSampleDecoder.Static;
+using Intents;
 using Org.BouncyCastle.Utilities;
 using System;
 using System.Collections.Generic;
@@ -18,8 +20,6 @@ namespace GPSSampleDecoder.Utils
 {
     public class SaveUtils
     {
-        private const string JSON = ".json";
-        private const string PNG = ".png";
         private ExcelWriter excelWriter = new ExcelWriter();
         private CSVWriter csvWriter = new CSVWriter();
         private ImageUtils imageUtils = new ImageUtils();
@@ -52,7 +52,7 @@ namespace GPSSampleDecoder.Utils
 
             }
 
-            using (StreamWriter outputFile = new StreamWriter(Path.Combine(path, configName + JSON)))
+            using (StreamWriter outputFile = new StreamWriter(System.IO.Path.Combine(path, configName + ".json")))
             {
                 //foreach (string line in lines)
                 outputFile.WriteLine(json);
@@ -62,15 +62,72 @@ namespace GPSSampleDecoder.Utils
             {
                 foreach (var image in imageList.images)
                 {
-                    string outpath = Path.Combine(path, image.locationUuid + ".JPG");
+                    string outpath = System.IO.Path.Combine(path, image.locationUuid + ".jpg");
                     byte[] bytes = Convert.FromBase64String(image.data);
                     File.WriteAllBytes(outpath, bytes);
                 }
+            }
+
+            var trks = "";
+
+            foreach (var enumArea in combinedConfiguration.enumAreas)
+            {
+                if (enumArea.breadcrumbs.Count() > 1)
+                {
+                    trks += createTrk(enumArea);
+                }
+            }
+
+            if (trks.Length > 0)
+            {
+                var gpxText = "";
+
+                gpxText += "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + "\n";
+                gpxText += "<gpx version=\"1.1\" creator=\"GPSSample\"" + "\n";
+                gpxText += "xmlns=\"http://www.topografix.com/GPX/1/1\">" + "\n";
+                gpxText += trks;
+                gpxText += "</gpx>" + "\n";
+
+                string outpath = System.IO.Path.Combine(path, configName + ".gpx");
+                byte[] bytes = Encoding.UTF8.GetBytes(gpxText);
+                File.WriteAllBytes(outpath, bytes);
             }
 
             return SaveStateError.Success;
 
         }
 
+        public string createTrk(EnumArea enumArea) 
+        {
+            string gpxText = "";
+
+            Breadcrumb first = enumArea.breadcrumbs.First();
+
+            gpxText += $"  <wpt lat=\"{first.latitude}\" lon=\"{first.longitude}\">" + "\n";
+            gpxText += $"    <name>Start ({enumArea.name})</name>" + "\n";
+            gpxText += $"  </wpt>" + "\n";
+
+            gpxText += $"  <trk>" + "\n";
+            gpxText += $"    <trkseg>" + "\n";
+
+            foreach (var breadcrumb in enumArea.breadcrumbs)
+            {
+                var dateTime = DateTimeOffset.FromUnixTimeMilliseconds(breadcrumb.creationDate).ToUniversalTime().ToString("yyyy-MM-dd'T'HH:mm:ss'Z'");
+                gpxText += $"      <trkpt lat=\"{breadcrumb.latitude}\" lon=\"{breadcrumb.longitude}\">" + "\n";
+                gpxText += $"        <time>{dateTime}</time>" + "\n";
+                gpxText += $"      </trkpt>" + "\n";
+            }
+
+            gpxText += $"    </trkseg>" + "\n";
+            gpxText += $"  </trk>" + "\n";
+
+            Breadcrumb last = enumArea.breadcrumbs.Last();
+
+            gpxText += $"  <wpt lat=\"{last.latitude}\" lon=\"{last.longitude}\">" + "\n";
+            gpxText += $"    <name>Finish ({enumArea.name})</name>" + "\n";
+            gpxText += $"  </wpt>" + "\n";
+
+            return gpxText;
+        }
     }
 }
