@@ -7,7 +7,6 @@
 using DocumentFormat.OpenXml.Vml;
 using GPSSampleDecoder.DataObjects;
 using GPSSampleDecoder.Static;
-using Intents;
 using Org.BouncyCastle.Utilities;
 using System;
 using System.Collections.Generic;

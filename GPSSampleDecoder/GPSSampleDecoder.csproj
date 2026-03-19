@@ -154,6 +154,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DataObjects\Breadcrumb.cs" />
     <Compile Include="DataObjects\CollectionTeam.cs" />
     <Compile Include="DataObjects\Configuration.cs" />
     <Compile Include="DataObjects\EnumArea.cs" />
