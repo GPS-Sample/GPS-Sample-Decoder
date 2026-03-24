@@ -67,51 +67,83 @@ namespace GPSSampleDecoder.Utils
                 }
             }
 
-            var trks = "";
+            var bodyText = "";
+
 
             foreach (var enumArea in combinedConfiguration.enumAreas)
             {
+                // group breadcrumbs by groupId
+
                 if (enumArea.breadcrumbs.Count() > 1)
                 {
-                    trks += createTrk(enumArea);
+                    var groupId = enumArea.breadcrumbs.First().groupId;
+
+                    List<Breadcrumb> breadcrumbs = new List<Breadcrumb>();
+                    List<List<Breadcrumb>> breadcrumbGroups = new List<List<Breadcrumb>>();
+
+                    foreach (var breadcrumb in enumArea.breadcrumbs)
+                    {
+                        if (breadcrumb.groupId == groupId)
+                        {
+                            breadcrumbs.Add(breadcrumb);
+
+                            if (breadcrumb == enumArea.breadcrumbs.Last())
+                            {
+                                breadcrumbGroups.Add(breadcrumbs);
+                            }
+                        }
+                        else
+                        {
+                            groupId = breadcrumb.groupId;
+                            breadcrumbGroups.Add(breadcrumbs);
+                            breadcrumbs = new List<Breadcrumb>() { breadcrumb };
+                        }
+                    }
+
+                    foreach (var breadcrumbGroup in breadcrumbGroups)
+                    {
+                        bodyText += createTrk(enumArea.name, breadcrumbGroup, combinedConfiguration.timeZone);
+                    }
                 }
             }
 
-            if (trks.Length > 0)
+            if (bodyText.Length > 0)
             {
-                var gpxText = "";
+                var fileText = "";
 
-                gpxText += "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + "\n";
-                gpxText += "<gpx version=\"1.1\" creator=\"GPSSample\"" + "\n";
-                gpxText += "xmlns=\"http://www.topografix.com/GPX/1/1\">" + "\n";
-                gpxText += trks;
-                gpxText += "</gpx>" + "\n";
+                fileText += "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + "\n";
+                fileText += "<gpx version=\"1.1\" creator=\"GPSSample\"" + "\n";
+                fileText += "xmlns=\"http://www.topografix.com/GPX/1/1\">" + "\n";
+                fileText += bodyText;
+                fileText += "</gpx>" + "\n";
 
                 string outpath = System.IO.Path.Combine(path, configName + ".gpx");
-                byte[] bytes = Encoding.UTF8.GetBytes(gpxText);
+                byte[] bytes = Encoding.UTF8.GetBytes(fileText);
                 File.WriteAllBytes(outpath, bytes);
             }
+
 
             return SaveStateError.Success;
 
         }
 
-        public string createTrk(EnumArea enumArea) 
+        public string createTrk(String enumAreaName, List<Breadcrumb> breadcrumbs, int timeZoneOffset)
         {
             string gpxText = "";
 
-            Breadcrumb first = enumArea.breadcrumbs.First();
+            Breadcrumb first = breadcrumbs.First();
 
             gpxText += $"  <wpt lat=\"{first.latitude}\" lon=\"{first.longitude}\">" + "\n";
-            gpxText += $"    <name>Start ({enumArea.name})</name>" + "\n";
+            gpxText += $"    <name>Start ({enumAreaName}-{first.enumTeamName})</name>" + "\n";
             gpxText += $"  </wpt>" + "\n";
 
             gpxText += $"  <trk>" + "\n";
+            gpxText += $"    <name>{enumAreaName}-{first.enumTeamName}</name>" + "\n";
             gpxText += $"    <trkseg>" + "\n";
 
-            foreach (var breadcrumb in enumArea.breadcrumbs)
+            foreach (var breadcrumb in breadcrumbs)
             {
-                var dateTime = DateTimeOffset.FromUnixTimeMilliseconds(breadcrumb.creationDate).ToUniversalTime().ToString("yyyy-MM-dd'T'HH:mm:ss'Z'");
+                var dateTime = DateTimeOffset.FromUnixTimeMilliseconds(breadcrumb.creationDate).ToOffset(TimeSpan.FromHours(timeZoneOffset)).ToString("yyyy-MM-dd'T'HH:mm:sszzz");
                 gpxText += $"      <trkpt lat=\"{breadcrumb.latitude}\" lon=\"{breadcrumb.longitude}\">" + "\n";
                 gpxText += $"        <time>{dateTime}</time>" + "\n";
                 gpxText += $"      </trkpt>" + "\n";
@@ -120,10 +152,10 @@ namespace GPSSampleDecoder.Utils
             gpxText += $"    </trkseg>" + "\n";
             gpxText += $"  </trk>" + "\n";
 
-            Breadcrumb last = enumArea.breadcrumbs.Last();
+            Breadcrumb last = breadcrumbs.Last();
 
             gpxText += $"  <wpt lat=\"{last.latitude}\" lon=\"{last.longitude}\">" + "\n";
-            gpxText += $"    <name>Finish ({enumArea.name})</name>" + "\n";
+            gpxText += $"    <name>Finish ({enumAreaName}-{last.enumTeamName})</name>" + "\n";
             gpxText += $"  </wpt>" + "\n";
 
             return gpxText;

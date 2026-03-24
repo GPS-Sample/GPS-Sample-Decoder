@@ -14,6 +14,7 @@ namespace GPSSampleDecoder.DataObjects
         public string uuid { get; set; }
         public long creationDate { get; set; }
         public string enumAreaUuid { get; set; }
+        public string enumTeamName { get; set; }
         public double latitude { get; set; }
         public double longitude { get; set; }
         public string groupId { get; set; }
