@@ -134,7 +134,7 @@ namespace GPSSampleDecoder.Utils
             Breadcrumb first = breadcrumbs.First();
 
             gpxText += $"  <wpt lat=\"{first.latitude}\" lon=\"{first.longitude}\">" + "\n";
-            gpxText += $"    <name>Start ({enumAreaName}-{first.enumTeamName})</name>" + "\n";
+            gpxText += $"    <name>Start</name>" + "\n";
             gpxText += $"  </wpt>" + "\n";
 
             gpxText += $"  <trk>" + "\n";
@@ -155,7 +155,7 @@ namespace GPSSampleDecoder.Utils
             Breadcrumb last = breadcrumbs.Last();
 
             gpxText += $"  <wpt lat=\"{last.latitude}\" lon=\"{last.longitude}\">" + "\n";
-            gpxText += $"    <name>Finish ({enumAreaName}-{last.enumTeamName})</name>" + "\n";
+            gpxText += $"    <name>Finish</name>" + "\n";
             gpxText += $"  </wpt>" + "\n";
 
             return gpxText;
