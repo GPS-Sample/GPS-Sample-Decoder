@@ -4,16 +4,13 @@
  *
  * See the LICENSE file for the full license text.
 */
-using DocumentFormat.OpenXml.Vml;
 using GPSSampleDecoder.DataObjects;
 using GPSSampleDecoder.Static;
-using Org.BouncyCastle.Utilities;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace GPSSampleDecoder.Utils
 {
