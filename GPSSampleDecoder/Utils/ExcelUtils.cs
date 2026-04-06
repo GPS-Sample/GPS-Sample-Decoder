@@ -170,6 +170,7 @@ namespace GPSSampleDecoder.Utils
                         return values;
 
                     }
+                case ("Note"):
                 case ("None"):
                     needToCheck = true;
                     break;
