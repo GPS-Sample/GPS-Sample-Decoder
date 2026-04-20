@@ -11,15 +11,7 @@ using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using X14 = DocumentFormat.OpenXml.Office2010.Excel;
-using X15 = DocumentFormat.OpenXml.Office2013.Excel;
 using GPSSampleDecoder.DataObjects;
-using System.Data;
-using DocumentFormat.OpenXml.Office2016.Excel;
-using GPSSampleDecoder.Static;
-using System.Globalization;
 using System.Text.Json;
 
 namespace GPSSampleDecoder.Utils
@@ -479,8 +471,11 @@ namespace GPSSampleDecoder.Utils
             headerRow.Append(CreateCell("Incomplete Enumeration Reason"));
             headerRow.Append(CreateCell("Enumeration Notes"));
             headerRow.Append(CreateCell("Meets Selection Criteria"));
+            headerRow.Append(CreateCell("Meets Subset Selection Criteria"));
             headerRow.Append(CreateCell("Probability of Selection"));
+            headerRow.Append(CreateCell("Probability of Subset Selection"));
             headerRow.Append(CreateCell("Sampled"));
+            headerRow.Append(CreateCell("SubsetSampled"));
             headerRow.Append(CreateCell("Surveyed"));
             headerRow.Append(CreateCell("Date Surveyed"));
             headerRow.Append(CreateCell("Time Surveyed"));
@@ -507,6 +502,8 @@ namespace GPSSampleDecoder.Utils
             {
                 float totalSampled = 0;
                 float totalEligible = 0;
+                float totalSubsetSampled = 0;
+                float totalSubsetEligible = 0;
 
                 foreach (var location in enumArea.locations)
                 {
@@ -516,9 +513,17 @@ namespace GPSSampleDecoder.Utils
                         {
                             totalSampled += 1;
                         }
+                        if (enumItem.subsetSamplingState == "Sampled")
+                        {
+                            totalSubsetSampled += 1;
+                        }
                         if (enumItem.enumerationEligibleForSampling)
                         {
                             totalEligible += 1;
+                        }
+                        if (enumItem.enumerationEligibleForSubsetSampling)
+                        {
+                            totalSubsetEligible += 1;
                         }
                     }
                 }
@@ -649,6 +654,11 @@ namespace GPSSampleDecoder.Utils
                             else
                                 eiRow.Append(CreateCell("No"));
 
+                            if (enumItem.enumerationEligibleForSubsetSampling)
+                                eiRow.Append(CreateCell("Yes"));
+                            else
+                                eiRow.Append(CreateCell("No"));
+
                             double pos = 0.0;
 
                             if (enumItem.enumerationEligibleForSampling)
@@ -668,7 +678,31 @@ namespace GPSSampleDecoder.Utils
 
                             eiRow.Append(CreateCell(String.Format("{0:0.#####}", pos)));
 
+                            pos = 0;
+
+                            if (enumItem.enumerationEligibleForSubsetSampling)
+                            {
+                                if (totalSubsetEligible > 0 && totalSubsetSampled > 0)
+                                {
+                                    if (totalSubsetEligible <= totalSubsetSampled)
+                                    {
+                                        pos = 1.0;
+                                    }
+                                    else
+                                    {
+                                        pos = totalSubsetSampled / totalSubsetEligible;
+                                    }
+                                }
+                            }
+
+                            eiRow.Append(CreateCell(String.Format("{0:0.#####}", pos)));
+
                             if (enumItem.samplingState == "Sampled")
+                                eiRow.Append(CreateCell("Yes"));
+                            else
+                                eiRow.Append(CreateCell("No"));
+
+                            if (enumItem.subsetSamplingState == "Sampled")
                                 eiRow.Append(CreateCell("Yes"));
                             else
                                 eiRow.Append(CreateCell("No"));
@@ -895,6 +929,9 @@ namespace GPSSampleDecoder.Utils
             headerRow.Append(CreateCell("Sampling Method"));
             headerRow.Append(CreateCell("Sample Type"));
             headerRow.Append(CreateCell("Sample Size"));
+            headerRow.Append(CreateCell("Subset Sample Name"));
+            headerRow.Append(CreateCell("Subset Sample Type"));
+            headerRow.Append(CreateCell("Subset Sample Size"));
 
             sheetData.AppendChild(headerRow);
 
@@ -909,6 +946,9 @@ namespace GPSSampleDecoder.Utils
                         studyRow.Append(CreateCell("Strata-" + strata.name));
                         studyRow.Append(CreateCell(strata.sampleType));
                         studyRow.Append(CreateCell($"{strata.sampleSize}"));
+                        studyRow.Append(CreateCell(study.subsetSampleName));
+                        studyRow.Append(CreateCell(study.subsetSampleType));
+                        studyRow.Append(CreateCell($"{study.subsetSampleSize}"));
                         sheetData.Append(studyRow);
                     }
                 }
@@ -919,6 +959,9 @@ namespace GPSSampleDecoder.Utils
                     studyRow.Append(CreateCell(study.samplingMethod));
                     studyRow.Append(CreateCell(study.sampleType));
                     studyRow.Append(CreateCell($"{study.sampleSize}"));
+                    studyRow.Append(CreateCell(study.subsetSampleName));
+                    studyRow.Append(CreateCell(study.subsetSampleType));
+                    studyRow.Append(CreateCell($"{study.subsetSampleSize}"));
                     sheetData.Append(studyRow);
                 }
             }
@@ -985,6 +1028,7 @@ namespace GPSSampleDecoder.Utils
             Row headerRow = new Row();
             headerRow.Append(CreateCell("Study Name"));
             headerRow.Append(CreateCell("Rule Name"));
+            headerRow.Append(CreateCell("Is Subset Rule"));
             headerRow.Append(CreateCell("Field Name"));
             headerRow.Append(CreateCell("Operator"));
             headerRow.Append(CreateCell("Value"));
@@ -994,13 +1038,16 @@ namespace GPSSampleDecoder.Utils
             // find number of field operators
             foreach (var study in data.studies)
             {
-                foreach (var rule in study.rules)
+                List<Rule> rules = study.primaryRules != null ? study.primaryRules : study.rules;
+
+                foreach (var rule in rules)
                 {
                     DataObjects.Field field = getField(rule.fieldUuid, data.studies);
 
                     Row ruleRow = new Row();
                     ruleRow.Append(CreateCell(study.name));
                     ruleRow.Append(CreateCell(rule.name));
+                    ruleRow.Append(CreateCell("No"));
                     ruleRow.Append(CreateCell(field.name));
                     ruleRow.Append(CreateCell(rule.@operator));
                     ruleRow.Append(CreateCell(rule.value));
@@ -1008,6 +1055,23 @@ namespace GPSSampleDecoder.Utils
                     sheetData.Append(ruleRow);
                 }
 
+                if (study.subsetRules != null)
+                {
+                    foreach (var rule in study.subsetRules)
+                    {
+                        DataObjects.Field field = getField(rule.fieldUuid, data.studies);
+
+                        Row ruleRow = new Row();
+                        ruleRow.Append(CreateCell(study.name));
+                        ruleRow.Append(CreateCell(rule.name));
+                        ruleRow.Append(CreateCell("Yes"));
+                        ruleRow.Append(CreateCell(field.name));
+                        ruleRow.Append(CreateCell(rule.@operator));
+                        ruleRow.Append(CreateCell(rule.value));
+
+                        sheetData.Append(ruleRow);
+                    }
+                }
             }
 
             return sheet;
@@ -1033,7 +1097,9 @@ namespace GPSSampleDecoder.Utils
 
             foreach (var study in data.studies)
             {
-                foreach (var filter in study.filters)
+                List<DataObjects.Filter> filters = study.primaryFilters != null ? study.primaryFilters : study.filters;
+
+                foreach (var filter in filters)
                 {
                     // build the rule chain
                     List<DataObjects.Rule> rules = new List<DataObjects.Rule>();
@@ -1071,6 +1137,46 @@ namespace GPSSampleDecoder.Utils
                     }
                 }
 
+                if (study.subsetFilters != null)
+                {
+                    foreach (var filter in study.subsetFilters)
+                    {
+                        // build the rule chain
+                        List<DataObjects.Rule> rules = new List<DataObjects.Rule>();
+                        DataObjects.Rule rule = filter.rule;
+                        while (rule != null)
+                        {
+                            rules.Add(rule);
+                            if (rule.filterOperator != null)
+                            {
+                                rule = rule.filterOperator.rule;
+                            }
+                            else
+                            {
+                                rule = null;
+                            }
+                        }
+                        int numRows = rules.Count();
+                        for (int i = 0; i < numRows; i++)
+                        {
+                            Row filterRow = new Row();
+                            DataObjects.Rule theRule = rules[i];
+                            if (theRule != null)
+                            {
+                                filterRow.Append(CreateCell(study.name));
+                                filterRow.Append(CreateCell(filter.name));
+                                filterRow.Append(CreateCell(theRule.name));
+                                if (theRule.filterOperator != null && theRule.filterOperator.rule != null)
+                                {
+                                    filterRow.Append(CreateCell(theRule.filterOperator.connector));
+                                    filterRow.Append(CreateCell(theRule.filterOperator.rule.name));
+
+                                }
+                            }
+                            sheetData.Append(filterRow);
+                        }
+                    }
+                }
             }
 
             return sheet;

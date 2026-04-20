@@ -20,6 +20,7 @@ namespace GPSSampleDecoder.DataObjects
       public string fieldUuid { get; set; }
       public string name { get; set; }
       public string value { get; set; }
+      public bool isSubsetRule { get; set; }
       public string @operator { get; set; }
       public FilterOperator filterOperator { get; set; }
       public List<FieldDataOption> fieldDataOptions { get; set; }

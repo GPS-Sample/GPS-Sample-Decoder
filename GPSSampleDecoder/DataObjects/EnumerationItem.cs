@@ -26,8 +26,10 @@ namespace GPSSampleDecoder.DataObjects
 		public string enumerationIncompleteReason { get; set; }
 		public string enumerationNotes { get; set; }
 		public bool enumerationEligibleForSampling { get; set; }
-		public string samplingState { get; set; }
-		public string collectorName { get; set; }
+        public bool enumerationEligibleForSubsetSampling { get; set; }
+        public string samplingState { get; set; }
+        public string subsetSamplingState { get; set; }
+        public string collectorName { get; set; }
 		public string collectionState { get; set; }
 		public long collectionDate { get; set; }
 		public string collectionIncompleteReason { get; set; }
