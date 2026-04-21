@@ -1196,6 +1196,7 @@ namespace GPSSampleDecoder.Utils
             headerRow.Append(CreateCell("# Enumerated"));
             headerRow.Append(CreateCell("# Incomplete - enumeration"));
             headerRow.Append(CreateCell("# Eligible for sampling"));
+            headerRow.Append(CreateCell("# Eligible for subset sampling"));
             headerRow.Append(CreateCell("# Sampled"));
             headerRow.Append(CreateCell("# Surveyed"));
             headerRow.Append(CreateCell("# Incomplete - survey"));
@@ -1213,6 +1214,7 @@ namespace GPSSampleDecoder.Utils
                 int numEnumerated = 0;
                 int numEnumerationsIncomplete = 0;
                 int numEligible = 0;
+                int numEligibleSubset = 0;
                 int numSampled = 0;
                 int numSurveyed = 0;
                 int numSurveysIncomplete = 0;
@@ -1255,7 +1257,11 @@ namespace GPSSampleDecoder.Utils
                             {
                                 numEligible += 1;
                             }
-                            if (enumItem.samplingState == "Sampled")
+                            if (enumItem.enumerationEligibleForSubsetSampling)
+                            {
+                                numEligibleSubset += 1;
+                            }
+                            if (enumItem.samplingState == "Sampled" || enumItem.subsetSamplingState == "Sampled")
                             {
                                 numSampled += 1;
                             }
@@ -1281,6 +1287,7 @@ namespace GPSSampleDecoder.Utils
                 row.Append(CreateCell(numEnumerated.ToString()));
                 row.Append(CreateCell(numEnumerationsIncomplete.ToString()));
                 row.Append(CreateCell(numEligible.ToString()));
+                row.Append(CreateCell(numEligibleSubset.ToString()));
                 row.Append(CreateCell(numSampled.ToString()));
                 row.Append(CreateCell(numSurveyed.ToString()));
                 row.Append(CreateCell(numSurveysIncomplete.ToString()));
