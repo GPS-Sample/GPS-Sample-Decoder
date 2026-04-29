@@ -1,0 +1,7 @@
+codesign --force --timestamp --sign "Developer ID Application: Russell Mitchell (YY23Z25979)" GPSSampleDecoder.app/Contents/MonoBundle/*.dylib
+codesign --deep --force --timestamp --options runtime --sign "Developer ID Application: Russell Mitchell (YY23Z25979)" GPSSampleDecoder.app
+codesign --verify --deep --strict --verbose=2 GPSSampleDecoder.app
+ditto -c -k --keepParent GPSSampleDecoder.app GPSSampleDecoder.zip
+xcrun notarytool submit GPSSampleDecoder.zip --keychain-profile "notary-profile" --wait
+xcrun stapler staple GPSSampleDecoder.app
+spctl --assess --type execute --verbose GPSSampleDecoder.app
