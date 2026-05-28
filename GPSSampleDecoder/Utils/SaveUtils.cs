@@ -81,7 +81,10 @@ namespace GPSSampleDecoder.Utils
 
                         foreach (var breadcrumbGroup in breadcrumbGroups)
                         {
-                            bodyText += createTrk(enumArea.name, breadcrumbGroup, combinedConfiguration.timeZone);
+                            if (breadcrumbGroup.Count > 1)
+                            {
+                                bodyText += createTrk(enumArea.name, breadcrumbGroup, combinedConfiguration.timeZone);
+                            }
                         }
                     }
                 }
