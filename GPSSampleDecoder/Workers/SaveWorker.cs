@@ -11,7 +11,6 @@ using GPSSampleDecoder.DataObjects;
 using GPSSampleDecoder.Delegates;
 using GPSSampleDecoder.Static;
 using System.Collections.Generic;
-using ImageList = GPSSampleDecoder.DataObjects.ImageList;
 
 namespace GPSSampleDecoder.Workers
 {
@@ -20,7 +19,7 @@ namespace GPSSampleDecoder.Workers
         public string outputPath { set; get; }
         public string JSON { set; get; }
         public Configuration combinedConfiguration = null;
-        public ImageList imageList = null;
+        public string imageFile = null;
         public List<Configuration> configurations { set; get; }
         public SaveState state { set; get; }
     }
@@ -61,13 +60,13 @@ namespace GPSSampleDecoder.Workers
             saveWorker.ProgressChanged += saveWorker_PercentDone;
         }
 
-        public void StartSaving(string pathToFile, string rawJSON, Configuration combinedConfiguration, List<Configuration> configurations, ImageList imageList, SaveState saveState)
+        public void StartSaving(string pathToFile, string rawJSON, Configuration combinedConfiguration, List<Configuration> configurations, string imageFile, SaveState saveState)
         {
             var data = new SaveData();
             data.outputPath = pathToFile;
             data.JSON = rawJSON;
             data.combinedConfiguration = combinedConfiguration;
-            data.imageList = imageList;
+            data.imageFile = imageFile;
             data.configurations = configurations;
             data.state = saveState;
             saveWorker.RunWorkerAsync(data);
@@ -80,7 +79,7 @@ namespace GPSSampleDecoder.Workers
             var saveData = e.Argument as SaveData;
             try
             {
-                saveUtils.SaveOutput(saveData.outputPath, saveData.JSON, saveData.combinedConfiguration, saveData.configurations, saveData.imageList, saveData.state);
+                saveUtils.SaveOutput(saveData.outputPath, saveData.JSON, saveData.combinedConfiguration, saveData.configurations, saveData.imageFile, saveData.state);
                 worker.ReportProgress(100);
 
             }

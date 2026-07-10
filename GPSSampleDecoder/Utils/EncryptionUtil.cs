@@ -71,7 +71,7 @@ namespace GPSSampleDecoder.Utils
 
 					// Decrypt the data
 					int len = gcmBlockCipher.ProcessBytes(cipherText, 0, cipherText.Length, plainText, 0);
-					gcmBlockCipher.DoFinal(plainText, len);
+                    len += gcmBlockCipher.DoFinal(plainText, len);
 
 					decrypted = Encoding.UTF8.GetString(plainText);
 				}
@@ -84,7 +84,6 @@ namespace GPSSampleDecoder.Utils
 				using (var streamReader = new StreamReader(gZipStream))
 				{
 					var decompressed = streamReader.ReadToEnd();
-					Console.WriteLine(decompressed);
 					return decompressed;
 				}
 			}

@@ -20,7 +20,8 @@ namespace GPSSampleDecoder.Workers
     public class DecodeWorker
     {
         private bool hasError = false;
-        private ImageList imageList = null;
+        private string imageFile = null;
+        private List<Image> imageList = null;
         private Configuration decryptedConfiguration = null;
         private List<Configuration> configurations = new List<Configuration>();
         private string rawJSON = null;
@@ -130,20 +131,49 @@ namespace GPSSampleDecoder.Workers
                     {
                     }
 
+                    Configuration config = null;
+
+                    // NOTE!!! This implemention is expecting no more than 1 of each type of file, Config, EnumAreas, Images
+
+                    // 1. Extract EnumAreas
+
+                    List<EnumArea> enumAreas = null;
+
                     foreach (string file in Directory.GetFiles(directoryPath))
                     {
-                        if (file.Contains( "-img" ))
+                        if (file.Contains("-enumAreas"))
                         {
-                            decodeImages(e, file, directoryPath);
+                            enumAreas = decodeEnumAreas(e, file);
                         }
-                        else
-                        {
-                            decodeConfig(e, file);
-                        }
-                        worker.ReportProgress(50);
                     }
 
-                    Directory.Delete(directoryPath, recursive: true);
+                    // 2. Extract Config
+
+                    foreach (string file in Directory.GetFiles(directoryPath))
+                    {
+                        if (!file.Contains( "-img" ) && !file.Contains( "-enumAreas" ))
+                        {
+                            config = decodeConfig(e, file, enumAreas);
+                        }
+                    }
+
+                    worker.ReportProgress(50);
+
+                    // 3. Extract Images
+
+                    foreach (string file in Directory.GetFiles(directoryPath))
+                    {
+                        if (file.Contains("-img"))
+                        {
+                            imageFile = file;
+                            break;
+                        }
+                    }
+
+                    if (imageFile == null)
+                    {
+                        Directory.Delete(directoryPath, recursive: true);
+                    }
                 }
 
                 worker.ReportProgress(100);
@@ -156,7 +186,7 @@ namespace GPSSampleDecoder.Workers
             }
         }
 
-        private void decodeConfig(DoWorkEventArgs e, string pathToConfiguration)
+        private Configuration decodeConfig(DoWorkEventArgs e, string pathToConfiguration, List<EnumArea> enumAreas)
         {
             try
             {
@@ -169,6 +199,8 @@ namespace GPSSampleDecoder.Workers
                 var decryptedFile = encryptionUtil.Decrypt(encrypted, _passcode);
 
                 Configuration config = JsonSerializer.Deserialize<Configuration>(decryptedFile);
+
+                config.enumAreas = enumAreas;
 
                 configurations.Add(config);
 
@@ -184,6 +216,8 @@ namespace GPSSampleDecoder.Workers
                 e.Result = decryptedConfiguration;
 
                 rawJSON = JsonSerializer.Serialize(decryptedConfiguration);
+
+                return config;
             }
             catch (Exception ex)
             {
@@ -192,9 +226,73 @@ namespace GPSSampleDecoder.Workers
                 DecodeError("Unable to decode selected config file. \n Ensure it is an encrypted JSON file\n" +
                    "Ensure you typed the passcode used to encrypt the JSON.");
             }
+
+            return null;
         }
 
-        private void decodeImages(DoWorkEventArgs e, string pathToImageList, string directoryPath)
+        private List<EnumArea> decodeEnumAreas( DoWorkEventArgs e, string pathToConfiguration )
+        {
+            try
+            {
+                List<EnumArea> enumAreas = new List<EnumArea>();
+
+                StreamReader sr = new StreamReader(pathToConfiguration);
+
+                string line = sr.ReadLine();
+
+                while (true)
+                {
+                    line = sr.ReadLine();
+                    if (line == null) break;
+                    var decryptedLine = encryptionUtil.Decrypt(line, _passcode);
+                    EnumArea enumArea = JsonSerializer.Deserialize<EnumArea>(decryptedLine);
+                    enumAreas.Add(enumArea);
+                }
+
+                sr.Close();
+
+                return enumAreas;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                hasError = true;
+                DecodeError("Unable to decode selected EnumArea file.");
+            }
+
+            return null;
+        }
+
+        private List<EnumArea> decodeImages(DoWorkEventArgs e, string pathToConfiguration)
+        {
+            try
+            {
+                StreamReader sr = new StreamReader(pathToConfiguration);
+
+                string line = sr.ReadLine();
+
+                while (true)
+                {
+                    line = sr.ReadLine();
+                    if (line == null) break;
+                    var decryptedLine = encryptionUtil.Decrypt(line, _passcode);
+                    Image image = JsonSerializer.Deserialize<Image>(decryptedLine);
+                    imageList.Add( image );
+                }
+
+                sr.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                hasError = true;
+                DecodeError("Unable to decode selected EnumArea file.");
+            }
+
+            return null;
+        }
+
+        private void decodeImagesXXX(DoWorkEventArgs e, string pathToImageList, string directoryPath)
         {
             try
             {
@@ -215,7 +313,7 @@ namespace GPSSampleDecoder.Workers
 
                 var decryptedFile = encryptionUtil.Decrypt(encrypted, _passcode);
 
-                imageList = JsonSerializer.Deserialize<ImageList>(decryptedFile);
+//                imageList = JsonSerializer.Deserialize<ImageList>(decryptedFile);
             }
             catch (Exception ex)
             {
@@ -232,7 +330,7 @@ namespace GPSSampleDecoder.Workers
         {
             if (DecodeCompleted != null && !hasError)
             {
-                DecodeCompleted(e, rawJSON, configurations, imageList);
+                DecodeCompleted(e, rawJSON, configurations, imageFile);
             }
             if (hasError)
             {

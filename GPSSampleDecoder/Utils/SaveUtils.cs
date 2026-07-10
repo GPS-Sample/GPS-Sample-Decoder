@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 
 namespace GPSSampleDecoder.Utils
 {
@@ -32,9 +33,9 @@ namespace GPSSampleDecoder.Utils
             }
         }
 
-        public SaveStateError SaveOutput(string path, string json, Configuration combinedConfiguration, List<Configuration> configurations, ImageList imageList, SaveState mode)
+        public SaveStateError SaveOutput(string path, string json, Configuration combinedConfiguration, List<Configuration> configurations, string imageFile, SaveState mode)
         {
-            if (combinedConfiguration != null && !String.IsNullOrEmpty(combinedConfiguration.name))
+            if (combinedConfiguration != null && combinedConfiguration.enumAreas != null && !String.IsNullOrEmpty(combinedConfiguration.name))
             {
                 var configName = combinedConfiguration.name;
 
@@ -106,13 +107,31 @@ namespace GPSSampleDecoder.Utils
             }
 
             // Write Image Files
-            if (imageList != null)
+            if (imageFile != null)
             {
-                foreach (var image in imageList.images)
+                try
                 {
-                    string outpath = System.IO.Path.Combine(path, image.locationUuid + ".jpg");
-                    byte[] bytes = Convert.FromBase64String(image.data);
-                    File.WriteAllBytes(outpath, bytes);
+                    StreamReader sr = new StreamReader(imageFile);
+
+                    string line = sr.ReadLine();
+
+                    while (true)
+                    {
+                        line = sr.ReadLine();
+                        if (line == null) break;
+                        Image image = JsonSerializer.Deserialize<Image>(line);
+                        string outpath = System.IO.Path.Combine(path, image.locationUuid + ".jpg");
+                        byte[] bytes = Convert.FromBase64String(image.data);
+                        File.WriteAllBytes(outpath, bytes);
+                    }
+
+                    sr.Close();
+
+                    Directory.Delete(Path.GetDirectoryName(imageFile), recursive: true);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
                 }
             }
 

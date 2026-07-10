@@ -239,7 +239,7 @@ namespace GPSSampleDecoder
             saveButton.Enabled = false;
             if(saveWorker != null)
             {
-               saveWorker.StartSaving(PathToOutput, rawJSON, decryptedConfiguration, configurations, imageList, _saveState);
+               saveWorker.StartSaving(PathToOutput, rawJSON, decryptedConfiguration, configurations, imageFile, _saveState);
             }            
          }
       }

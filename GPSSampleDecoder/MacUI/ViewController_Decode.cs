@@ -18,7 +18,7 @@ namespace GPSSampleDecoder
    public partial class ViewController : NSViewController
    {
       private bool _decodeComplete;
-		private ImageList imageList = null;
+		private string imageFile = null;
 		private Configuration decryptedConfiguration = null;
       private List<Configuration> configurations = new List<Configuration>();
       private string rawJSON = null;
@@ -32,7 +32,7 @@ namespace GPSSampleDecoder
          }
       }
 
-      private void DecodeCompleted(RunWorkerCompletedEventArgs e, string rawJSON, List<Configuration> configurations, ImageList imageList )
+      private void DecodeCompleted(RunWorkerCompletedEventArgs e, string rawJSON, List<Configuration> configurations, string imageFile )
       // This event handler deals with the results of the
       // background operation.
       // private void decodeWorker_RunWorkerCompleted(
@@ -63,7 +63,7 @@ namespace GPSSampleDecoder
             DecodeComplete = true;
             decryptedConfiguration = e.Result as Configuration;
             this.rawJSON = rawJSON;
-            this.imageList = imageList;
+            this.imageFile = imageFile;
             this.configurations = configurations;
             decodeButton.Enabled = true;
             outputBrowseButton.Enabled = true;

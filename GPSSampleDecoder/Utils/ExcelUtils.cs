@@ -64,26 +64,30 @@ namespace GPSSampleDecoder.Utils
                 spreadsheetDoc.WorkbookPart.Workbook.Sheets = new Sheets();
                 Sheets sheets = spreadsheetDoc.WorkbookPart.Workbook.GetFirstChild<Sheets>();
                 sheets.Append(createConfigurationSheet(wBookPart, spreadsheetDoc, sheetId, data));
-                sheetId += 1;
-                sheets.Append(createEnumerationAreaSheet(wBookPart, spreadsheetDoc, sheetId, data));
-                sheetId += 1;
-                sheets.Append(createEnumerationLocationsSheet(wBookPart, spreadsheetDoc, sheetId, data));
-                sheetId += 1;
-                sheets.Append(createStudiesSheet(wBookPart, spreadsheetDoc, sheetId, data));
-                sheetId += 1;
-                sheets.Append(createSampleSheet(wBookPart, spreadsheetDoc, sheetId, data));
-                sheetId += 1;
-                sheets.Append(creatRulesSheet(wBookPart, spreadsheetDoc, sheetId, data));
-                sheetId += 1;
-                sheets.Append(creatFiltersSheet(wBookPart, spreadsheetDoc, sheetId, data));
-                sheetId += 1;
-                sheets.Append(createCollectionTeamsSheet(wBookPart, spreadsheetDoc, sheetId, data));
-                sheetId += 1;
-                sheets.Append(createEnumerationItemsSheet(wBookPart, spreadsheetDoc, sheetId, data));
-                sheetId += 1;
-                sheets.Append(createEnumerationBlockItemsSheet(wBookPart, spreadsheetDoc, sheetId, data));
-                sheetId += 1;
-                sheets.Append(createSummarySheet(wBookPart, spreadsheetDoc, sheetId, data));
+
+                if (data.enumAreas != null)
+                {
+                    sheetId += 1;
+                    sheets.Append(createEnumerationAreaSheet(wBookPart, spreadsheetDoc, sheetId, data));
+                    sheetId += 1;
+                    sheets.Append(createEnumerationLocationsSheet(wBookPart, spreadsheetDoc, sheetId, data));
+                    sheetId += 1;
+                    sheets.Append(createStudiesSheet(wBookPart, spreadsheetDoc, sheetId, data));
+                    sheetId += 1;
+                    sheets.Append(createSampleSheet(wBookPart, spreadsheetDoc, sheetId, data));
+                    sheetId += 1;
+                    sheets.Append(creatRulesSheet(wBookPart, spreadsheetDoc, sheetId, data));
+                    sheetId += 1;
+                    sheets.Append(creatFiltersSheet(wBookPart, spreadsheetDoc, sheetId, data));
+                    sheetId += 1;
+                    sheets.Append(createCollectionTeamsSheet(wBookPart, spreadsheetDoc, sheetId, data));
+                    sheetId += 1;
+                    sheets.Append(createEnumerationItemsSheet(wBookPart, spreadsheetDoc, sheetId, data));
+                    sheetId += 1;
+                    sheets.Append(createEnumerationBlockItemsSheet(wBookPart, spreadsheetDoc, sheetId, data));
+                    sheetId += 1;
+                    sheets.Append(createSummarySheet(wBookPart, spreadsheetDoc, sheetId, data));
+                }
             }
         }
 
