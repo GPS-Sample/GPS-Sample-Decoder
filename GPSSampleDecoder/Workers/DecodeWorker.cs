@@ -114,6 +114,9 @@ namespace GPSSampleDecoder.Workers
             {
                 BackgroundWorker worker = sender as BackgroundWorker;
 
+                imageList = new ImageList();
+                imageList.images = new List<Image>();
+
                 foreach (string pathToConfiguration in PathsToConfigurations)
                 {
                     worker.ReportProgress(10);
@@ -215,7 +218,12 @@ namespace GPSSampleDecoder.Workers
 
                 var decryptedFile = encryptionUtil.Decrypt(encrypted, _passcode);
 
-                imageList = JsonSerializer.Deserialize<ImageList>(decryptedFile);
+                var il = JsonSerializer.Deserialize<ImageList>(decryptedFile);
+                imageList.configUuid = il.configUuid;
+                foreach (Image image in il.images)
+                {
+                    imageList.images.Add(image);
+                }
             }
             catch (Exception ex)
             {
