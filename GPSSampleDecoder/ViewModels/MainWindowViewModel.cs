@@ -316,7 +316,7 @@ namespace GPSSampleDecoder.ViewModels
 
          if (PathToOutput != null && PathToOutput != "")
          {
-            saveWorker.StartSaving(PathToOutput, rawJSON, decryptedConfiguration, configurations, imageList, _saveState);
+            saveWorker.StartSaving(PathToOutput, rawJSON, decryptedConfiguration, configurations, imageFile, _saveState);
          }
          else
          {

@@ -125,7 +125,7 @@
             <Button  Margin="4,0,10,0" Width="100" VerticalAlignment="Top" HorizontalAlignment="Right" Content="Save" IsEnabled="{Binding SaveBrowseComplete}" Command="{Binding SaveCommand}" />
          </StackPanel>
 
-         <TextBlock  x:Name="VersionTextBox" Text="Database Version #324" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="6" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+         <TextBlock  x:Name="VersionTextBox" Text="Database Version #325" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="6" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
       </Grid>
 

@@ -15,13 +15,13 @@ namespace GPSSampleDecoder.ViewModels
 {
     public partial class MainWindowViewModel : INotifyPropertyChanged
     {
-        private int minDbVersion = 321;
+        private int minDbVersion = 325;
         private Configuration decryptedConfiguration = null;
 
-        private ImageList imageList = null;
+        private string imageFile = null;
         private List<Configuration> configurations = new List<Configuration>();
         private string rawJSON = null;
-        private void DecodeCompleted(RunWorkerCompletedEventArgs e, string rawJSON, List<Configuration> configurations, ImageList imageList)
+        private void DecodeCompleted(RunWorkerCompletedEventArgs e, string rawJSON, List<Configuration> configurations, string imageFile)
 
         // This event handler deals with the results of the
         // background operation.
@@ -51,7 +51,7 @@ namespace GPSSampleDecoder.ViewModels
                 DecodeComplete = true;
                 decryptedConfiguration = e.Result as Configuration;
                 this.rawJSON = rawJSON;
-                this.imageList = imageList;
+                this.imageFile = imageFile;
                 this.configurations = configurations;
 
                 HasConfigPath = true;
