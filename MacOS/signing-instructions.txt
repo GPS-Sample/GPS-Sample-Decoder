@@ -1,13 +1,19 @@
-codesign --force --timestamp --sign "Developer ID Application: Russell Mitchell (YY23Z25979)" GPSSampleDecoder.app/Contents/MonoBundle/*.dylib
+SETUP:
 
-codesign --deep --force --timestamp --options runtime --sign "Developer ID Application: Russell Mitchell (YY23Z25979)" GPSSampleDecoder.app
+Make sure this exists in the password keychain:
 
-codesign --verify --deep --strict --verbose=2 GPSSampleDecoder.app
+xcrun notarytool store-credentials "notary-profile" --apple-id "russell.d.mitchell@gmail.com" --team-id "YY23Z25979"
 
-ditto -c -k --keepParent GPSSampleDecoder.app GPSSampleDecoder.zip
+1. codesign --force --timestamp --sign "Developer ID Application: Russell Mitchell (YY23Z25979)" GPSSampleDecoder.app/Contents/MonoBundle/*.dylib
 
-xcrun notarytool submit GPSSampleDecoder.zip --keychain-profile "notary-profile" --wait
+2. codesign --deep --force --timestamp --options runtime --entitlements GPSSampleDecoder.entitlements --sign "Developer ID Application: Russell Mitchell (YY23Z25979)" GPSSampleDecoder.app
 
-xcrun stapler staple GPSSampleDecoder.app
+3. codesign --verify --deep --strict --verbose=2 GPSSampleDecoder.app
 
-spctl --assess --type execute --verbose GPSSampleDecoder.app
+4. ditto -c -k --keepParent GPSSampleDecoder.app GPSSampleDecoder.zip
+
+5. xcrun notarytool submit GPSSampleDecoder.zip --keychain-profile "notary-profile" --wait
+
+6. xcrun stapler staple GPSSampleDecoder.app
+
+7. spctl --assess --type execute --verbose GPSSampleDecoder.app
