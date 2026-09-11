@@ -20,7 +20,7 @@ namespace GPSSampleDecoder
    {
       public int dbVersion = 325;
       public int minDbVersion = 325;
-      public string appVersion = "v3.0.0";
+      public string appVersion = "v3.0.1";
       private int _percentDecoded = 0;
       private int _percentSaved = 0;
       private List<string> PathsToConfigurations = new List<String>();

@@ -144,6 +144,8 @@ namespace GPSSampleDecoder.Workers
                         if (file.Contains("-enumAreas"))
                         {
                             enumAreas = decodeEnumAreas(e, file);
+                            File.Delete(file);
+                            break;
                         }
                     }
 
@@ -154,23 +156,27 @@ namespace GPSSampleDecoder.Workers
                         if (!file.Contains( "-img" ) && !file.Contains( "-enumAreas" ))
                         {
                             config = decodeConfig(e, file, enumAreas);
+                            File.Delete(file);
+                            break;
                         }
                     }
 
                     worker.ReportProgress(50);
 
-                    // 3. Extract Images
+                    // 3. Check for images
+
+                    Boolean hasImages = false;
 
                     foreach (string file in Directory.GetFiles(directoryPath))
                     {
                         if (file.Contains("-img"))
                         {
-                            imageFile = file;
+                            hasImages = true;
                             break;
                         }
                     }
 
-                    if (imageFile == null)
+                    if (!hasImages)
                     {
                         Directory.Delete(directoryPath, recursive: true);
                     }

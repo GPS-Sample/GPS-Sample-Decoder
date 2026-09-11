@@ -107,33 +107,68 @@ namespace GPSSampleDecoder.Utils
             }
 
             // Write Image Files
-            if (imageFile != null)
+
+            string imageDirectoryPath = Path.GetDirectoryName(path) + "/tmp";
+
+            if (Directory.Exists(imageDirectoryPath))
             {
-                try
+                foreach (string file in Directory.GetFiles(imageDirectoryPath))
                 {
-                    StreamReader sr = new StreamReader(imageFile);
-
-                    string line = sr.ReadLine();
-
-                    while (true)
+                    try
                     {
-                        line = sr.ReadLine();
-                        if (line == null) break;
-                        Image image = JsonSerializer.Deserialize<Image>(line);
-                        string outpath = System.IO.Path.Combine(path, image.locationUuid + ".jpg");
-                        byte[] bytes = Convert.FromBase64String(image.data);
-                        File.WriteAllBytes(outpath, bytes);
+                        StreamReader sr = new StreamReader(file);
+
+                        string line = sr.ReadLine();
+
+                        while (true)
+                        {
+                            line = sr.ReadLine();
+                            if (line == null) break;
+                            Image image = JsonSerializer.Deserialize<Image>(line);
+                            string outpath = System.IO.Path.Combine(path, image.locationUuid + ".jpg");
+                            byte[] bytes = Convert.FromBase64String(image.data);
+                            File.WriteAllBytes(outpath, bytes);
+                        }
+
+                        sr.Close();
                     }
-
-                    sr.Close();
-
-                    Directory.Delete(Path.GetDirectoryName(imageFile), recursive: true);
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.ToString());
+                    }
                 }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.ToString());
-                }
+
+                Directory.Delete(imageDirectoryPath, recursive: true);
             }
+
+            //// Write Image Files
+            //if (imageFile != null)
+            //{
+            //    try
+            //    {
+            //        StreamReader sr = new StreamReader(imageFile);
+
+            //        string line = sr.ReadLine();
+
+            //        while (true)
+            //        {
+            //            line = sr.ReadLine();
+            //            if (line == null) break;
+            //            Image image = JsonSerializer.Deserialize<Image>(line);
+            //            string outpath = System.IO.Path.Combine(path, image.locationUuid + ".jpg");
+            //            byte[] bytes = Convert.FromBase64String(image.data);
+            //            File.WriteAllBytes(outpath, bytes);
+            //        }
+
+            //        sr.Close();
+
+            //        Directory.Delete(Path.GetDirectoryName(imageFile), recursive: true);
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        Console.WriteLine(ex.ToString());
+            //    }
+            //}
 
             return SaveStateError.Success;
 
