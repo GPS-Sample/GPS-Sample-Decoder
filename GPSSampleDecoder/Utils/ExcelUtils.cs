@@ -478,6 +478,9 @@ namespace GPSSampleDecoder.Utils
             headerRow.Append(CreateCell("Meets Subset Selection Criteria"));
             headerRow.Append(CreateCell("Probability of Selection"));
             headerRow.Append(CreateCell("Probability of Subset Selection"));
+            headerRow.Append(CreateCell("Review Status"));
+            headerRow.Append(CreateCell("Exclusion Reason"));
+            headerRow.Append(CreateCell("Exclusion Notes"));
             headerRow.Append(CreateCell("Sampled"));
             headerRow.Append(CreateCell("SubsetSampled"));
             headerRow.Append(CreateCell("Surveyed"));
@@ -700,6 +703,19 @@ namespace GPSSampleDecoder.Utils
                             }
 
                             eiRow.Append(CreateCell(String.Format("{0:0.#####}", pos)));
+
+                            if (enumItem.reviewStatus == "Ignore")
+                            {
+                                eiRow.Append(CreateCell(""));
+                                eiRow.Append(CreateCell(""));
+                                eiRow.Append(CreateCell(""));
+                            }
+                            else
+                            {
+                                eiRow.Append(CreateCell(enumItem.reviewStatus));
+                                eiRow.Append(CreateCell(enumItem.exclusionReason));
+                                eiRow.Append(CreateCell(enumItem.exclusionNotes));
+                            }
 
                             if (enumItem.samplingState == "Sampled")
                                 eiRow.Append(CreateCell("Yes"));

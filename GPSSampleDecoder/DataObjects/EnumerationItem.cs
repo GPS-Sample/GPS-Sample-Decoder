@@ -34,6 +34,9 @@ namespace GPSSampleDecoder.DataObjects
 		public long collectionDate { get; set; }
 		public string collectionIncompleteReason { get; set; }
 		public string collectionNotes { get; set; }
+        public string reviewStatus { get; set; }
+		public string exclusionReason { get; set; }
+		public string exclusionNotes { get; set; }
 		public string locationUuid { get; set; }
 		public string odkRecordUri { get; set; }
 		public List<FieldData> fieldDataList { get; set; }
