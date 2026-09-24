@@ -177,6 +177,11 @@ namespace GPSSampleDecoder.Utils
             {
                 DataObjects.Field field = getField(data.fieldUuid, studies);
 
+                if (field == null)
+                {
+                    field = getCollectionField(data.fieldUuid, studies);
+                }
+
                 // find checkbox box
                 if (field != null && field.type.ToLower().Contains("checkbox"))
                 {
@@ -490,14 +495,23 @@ namespace GPSSampleDecoder.Utils
             headerRow.Append(CreateCell("Survey Notes"));
 
             Dictionary<string, int> headerFields = new Dictionary<string, int>();
-            int row = 0;
+            Dictionary<string, int> headerCollectionFields = new Dictionary<string, int>();
+            int idx = 0;
+
             foreach (Study study in data.studies)
             {
                 foreach (var field in study.fields)
                 {
                     headerRow.Append(CreateCell(field.index.ToString() + ". " + field.name));
-                    row = headerRow.Count() - 1;
-                    headerFields.Add(field.uuid, row);
+                    idx = headerRow.Count() - 1;
+                    headerFields.Add(field.uuid, idx);
+                }
+
+                foreach (var field in study.collectionFields)
+                {
+                    headerRow.Append(CreateCell( "DC" + field.index.ToString() + ". " + field.name));
+                    idx = headerRow.Count() - 1;
+                    headerCollectionFields.Add(field.uuid, idx);
                 }
             }
 
@@ -576,10 +590,12 @@ namespace GPSSampleDecoder.Utils
 
                     foreach (var enumItem in location.enumerationItems)
                     {
-                        Dictionary<int, List<string>> sorted = new Dictionary<int, List<string>>();
+                        Dictionary<int, List<string>> sortedFields = new Dictionary<int, List<string>>();
+                        Dictionary<int, List<string>> sortedCollectionFields = new Dictionary<int, List<string>>();
 
-                        int largest = addFieldDataList(headerFields, sorted, enumItem, data.studies);
                         // largest is the number of rows we have to add
+                        int largest = addFieldDataList( headerFields, sortedFields, enumItem, data.studies);
+                        addFieldDataList( headerCollectionFields, sortedCollectionFields, enumItem, data.studies);
 
                         for (int i = 0; i < largest; i++)
                         {
@@ -750,18 +766,30 @@ namespace GPSSampleDecoder.Utils
                             eiRow.Append(CreateCell(enumItem.collectionNotes));
 
                             // add the correct number of cells
-                            for (int k = 0; k < sorted.Count(); k++)
+                            for (int k = 0; k < sortedFields.Count(); k++)
                             {
                                 eiRow.Append(CreateCell(""));
                             }
 
-                            foreach (var key in sorted.Keys)
+                            foreach (var key in sortedFields.Keys)
                             {
-                                if (sorted[key].Count > 0)
+                                if (sortedFields[key].Count > 0)
                                 {
-                                    // HACK? this was using i for the index, but was wrong
+                                    eiRow.InsertAt(CreateCell(sortedFields[key][0]), key);
+                                }
+                            }
 
-                                    eiRow.InsertAt(CreateCell(sorted[key][0]), key);
+                            // add the correct number of cells
+                            for (int k = 0; k < sortedCollectionFields.Count(); k++)
+                            {
+                                eiRow.Append(CreateCell(""));
+                            }
+
+                            foreach (var key in sortedCollectionFields.Keys)
+                            {
+                                if (sortedCollectionFields[key].Count > 0)
+                                {
+                                    eiRow.InsertAt(CreateCell(sortedCollectionFields[key][0]), key);
                                 }
                             }
 
@@ -1358,6 +1386,32 @@ namespace GPSSampleDecoder.Utils
             foreach (Study study in studies)
             {
                 foreach (var field in study.fields)
+                {
+                    if (field.uuid == uuid)
+                    {
+                        return field;
+                    }
+                    else if (field.fields != null)
+                    {
+                        foreach (var childField in field.fields)
+                        {
+                            if (childField.uuid == uuid)
+                            {
+                                return childField;
+                            }
+                        }
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        private GPSSampleDecoder.DataObjects.Field getCollectionField(string uuid, List<Study> studies)
+        {
+            foreach (Study study in studies)
+            {
+                foreach (var field in study.collectionFields)
                 {
                     if (field.uuid == uuid)
                     {

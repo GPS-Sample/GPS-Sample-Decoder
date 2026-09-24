@@ -22,6 +22,7 @@ namespace GPSSampleDecoder.DataObjects
         public string subsetSampleType { get; set; }
         public List<Strata> stratas { get; set; }
         public List<Field> fields { get; set; }
+        public List<Field> collectionFields { get; set; }
         public List<Rule> rules { get; set; }
         public List<Filter> filters { get; set; }
         public List<Rule> primaryRules { get; set; }
