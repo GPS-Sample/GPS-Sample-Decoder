@@ -171,6 +171,7 @@ namespace GPSSampleDecoder.Workers
                     {
                         if (file.Contains("-img"))
                         {
+                            imageFile = directoryPath;
                             hasImages = true;
                             break;
                         }

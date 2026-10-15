@@ -108,7 +108,7 @@ namespace GPSSampleDecoder.Utils
 
             // Write Image Files
 
-            string imageDirectoryPath = Path.GetDirectoryName(path) + "/tmp";
+            string imageDirectoryPath = imageFile; // Path.GetDirectoryName(path) + "/tmp";
 
             if (Directory.Exists(imageDirectoryPath))
             {
