@@ -307,6 +307,19 @@ namespace GPSSampleDecoder.Utils
                         }
                     }
                 }
+                foreach (var field in study.collectionFields)
+                {
+                    if (field.fields != null)
+                    {
+                        foreach (var childField in field.fields)
+                        {
+                            var fieldName = field.index.ToString() + "." + childField.index.ToString() + ". " + childField.name;
+                            headerRow.Append(CreateCell(fieldName));
+                            row = headerRow.Count() - 1;
+                            headerFields.Add(childField.uuid, row);
+                        }
+                    }
+                }
             }
 
             sheetData.AppendChild(headerRow);
