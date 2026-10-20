@@ -141,35 +141,6 @@ namespace GPSSampleDecoder.Utils
                 Directory.Delete(imageDirectoryPath, recursive: true);
             }
 
-            //// Write Image Files
-            //if (imageFile != null)
-            //{
-            //    try
-            //    {
-            //        StreamReader sr = new StreamReader(imageFile);
-
-            //        string line = sr.ReadLine();
-
-            //        while (true)
-            //        {
-            //            line = sr.ReadLine();
-            //            if (line == null) break;
-            //            Image image = JsonSerializer.Deserialize<Image>(line);
-            //            string outpath = System.IO.Path.Combine(path, image.locationUuid + ".jpg");
-            //            byte[] bytes = Convert.FromBase64String(image.data);
-            //            File.WriteAllBytes(outpath, bytes);
-            //        }
-
-            //        sr.Close();
-
-            //        Directory.Delete(Path.GetDirectoryName(imageFile), recursive: true);
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        Console.WriteLine(ex.ToString());
-            //    }
-            //}
-
             return SaveStateError.Success;
 
         }
@@ -182,6 +153,7 @@ namespace GPSSampleDecoder.Utils
 
             gpxText += $"  <wpt lat=\"{first.latitude}\" lon=\"{first.longitude}\">" + "\n";
             gpxText += $"    <name>Start</name>" + "\n";
+            gpxText += $"    <id>{enumAreaName}-{first.enumTeamName}</id>" + "\n";
             gpxText += $"  </wpt>" + "\n";
 
             gpxText += $"  <trk>" + "\n";
@@ -192,6 +164,7 @@ namespace GPSSampleDecoder.Utils
             {
                 var dateTime = DateTimeOffset.FromUnixTimeMilliseconds(breadcrumb.creationDate).ToOffset(TimeSpan.FromHours(timeZoneOffset)).ToString("yyyy-MM-dd'T'HH:mm:sszzz");
                 gpxText += $"      <trkpt lat=\"{breadcrumb.latitude}\" lon=\"{breadcrumb.longitude}\">" + "\n";
+                gpxText += $"        <id>{enumAreaName}-{first.enumTeamName}</id>" + "\n";
                 gpxText += $"        <time>{dateTime}</time>" + "\n";
                 gpxText += $"      </trkpt>" + "\n";
             }
