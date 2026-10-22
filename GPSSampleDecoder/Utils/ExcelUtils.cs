@@ -313,7 +313,7 @@ namespace GPSSampleDecoder.Utils
                     {
                         foreach (var childField in field.fields)
                         {
-                            var fieldName = field.index.ToString() + "." + childField.index.ToString() + ". " + childField.name;
+                            var fieldName = "DC." + field.index.ToString() + "." + childField.index.ToString() + ". " + childField.name;
                             headerRow.Append(CreateCell(fieldName));
                             row = headerRow.Count() - 1;
                             headerFields.Add(childField.uuid, row);
@@ -1399,6 +1399,23 @@ namespace GPSSampleDecoder.Utils
             foreach (Study study in studies)
             {
                 foreach (var field in study.fields)
+                {
+                    if (field.uuid == uuid)
+                    {
+                        return field;
+                    }
+                    else if (field.fields != null)
+                    {
+                        foreach (var childField in field.fields)
+                        {
+                            if (childField.uuid == uuid)
+                            {
+                                return childField;
+                            }
+                        }
+                    }
+                }
+                foreach (var field in study.collectionFields)
                 {
                     if (field.uuid == uuid)
                     {
