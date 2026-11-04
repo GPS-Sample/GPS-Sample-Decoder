@@ -150,22 +150,25 @@ namespace GPSSampleDecoder.Utils
             string gpxText = "";
 
             Breadcrumb first = breadcrumbs.First();
+            var dateTime = DateTimeOffset.FromUnixTimeMilliseconds(first.creationDate).ToOffset(TimeSpan.FromHours(timeZoneOffset)).ToString("yyyy-MM-dd'T'HH:mm:sszzz");
 
             gpxText += $"  <wpt lat=\"{first.latitude}\" lon=\"{first.longitude}\">" + "\n";
+            gpxText += $"    <time>{dateTime}</time>" + "\n";
             gpxText += $"    <name>Start</name>" + "\n";
-            gpxText += $"    <id>{enumAreaName}-{first.enumTeamName}</id>" + "\n";
+            gpxText += $"    <desc>{enumAreaName}-{first.enumTeamName}</desc>" + "\n";
             gpxText += $"  </wpt>" + "\n";
 
             gpxText += $"  <trk>" + "\n";
-            gpxText += $"    <name>{enumAreaName}-{first.enumTeamName}</name>" + "\n";
+            gpxText += $"    <time>{dateTime}</time>" + "\n";
+            gpxText += $"    <desc>{enumAreaName}-{first.enumTeamName}</desc>" + "\n";
             gpxText += $"    <trkseg>" + "\n";
 
             foreach (var breadcrumb in breadcrumbs)
             {
-                var dateTime = DateTimeOffset.FromUnixTimeMilliseconds(breadcrumb.creationDate).ToOffset(TimeSpan.FromHours(timeZoneOffset)).ToString("yyyy-MM-dd'T'HH:mm:sszzz");
+                dateTime = DateTimeOffset.FromUnixTimeMilliseconds(breadcrumb.creationDate).ToOffset(TimeSpan.FromHours(timeZoneOffset)).ToString("yyyy-MM-dd'T'HH:mm:sszzz");
                 gpxText += $"      <trkpt lat=\"{breadcrumb.latitude}\" lon=\"{breadcrumb.longitude}\">" + "\n";
-                gpxText += $"        <id>{enumAreaName}-{first.enumTeamName}</id>" + "\n";
                 gpxText += $"        <time>{dateTime}</time>" + "\n";
+                gpxText += $"        <desc>{enumAreaName}-{first.enumTeamName}</desc>" + "\n";
                 gpxText += $"      </trkpt>" + "\n";
             }
 
@@ -173,9 +176,12 @@ namespace GPSSampleDecoder.Utils
             gpxText += $"  </trk>" + "\n";
 
             Breadcrumb last = breadcrumbs.Last();
+            dateTime = DateTimeOffset.FromUnixTimeMilliseconds(last.creationDate).ToOffset(TimeSpan.FromHours(timeZoneOffset)).ToString("yyyy-MM-dd'T'HH:mm:sszzz");
 
             gpxText += $"  <wpt lat=\"{last.latitude}\" lon=\"{last.longitude}\">" + "\n";
+            gpxText += $"    <time>{dateTime}</time>" + "\n";
             gpxText += $"    <name>Finish</name>" + "\n";
+            gpxText += $"    <desc>{enumAreaName}-{last.enumTeamName}</desc>" + "\n";
             gpxText += $"  </wpt>" + "\n";
 
             return gpxText;
