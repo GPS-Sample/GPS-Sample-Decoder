@@ -18,6 +18,7 @@ namespace GPSSampleDecoder.DataObjects
         public long creationDate { get; set; }
         public string configUuid { get; set; }
         public string name { get; set; }
+        public int sampleSize { get; set; }
         public string selectedEnumerationTeamUuid { get; set; }
         public string selectedCollectionTeamUuid { get; set; }
         public List<LatLon> vertices { get; set; }

@@ -994,6 +994,13 @@ namespace GPSSampleDecoder.Utils
             headerRow.Append(CreateCell("Subset Sample Type"));
             headerRow.Append(CreateCell("Subset Sample Size"));
 
+            var firstStudy = data.studies.FirstOrDefault();
+            if (firstStudy != null && firstStudy.samplingMethod == "SelfWeighted")
+            {
+                headerRow.Append(CreateCell("Enumeration Area Name"));
+                headerRow.Append(CreateCell("Self Weighted Sample Size"));
+            }
+
             sheetData.AppendChild(headerRow);
 
             foreach (var study in data.studies)
@@ -1011,6 +1018,33 @@ namespace GPSSampleDecoder.Utils
                         studyRow.Append(CreateCell(study.subsetSampleType));
                         studyRow.Append(CreateCell($"{study.subsetSampleSize}"));
                         sheetData.Append(studyRow);
+                    }
+                }
+                else if (study.samplingMethod == "SelfWeighted")
+                {
+                    Row studyRow = new Row();
+                    studyRow.Append(CreateCell(study.name));
+                    studyRow.Append(CreateCell(study.samplingMethod));
+                    studyRow.Append(CreateCell(study.sampleType));
+                    studyRow.Append(CreateCell("0"));
+                    studyRow.Append(CreateCell(study.subsetSampleName));
+                    studyRow.Append(CreateCell(study.subsetSampleType));
+                    studyRow.Append(CreateCell("0"));
+                    sheetData.Append(studyRow);
+
+                    foreach (var enumArea in data.enumAreas)
+                    {
+                        Row eaRow = new Row();
+                        eaRow.Append(CreateCell(""));
+                        eaRow.Append(CreateCell(""));
+                        eaRow.Append(CreateCell(""));
+                        eaRow.Append(CreateCell(""));
+                        eaRow.Append(CreateCell(""));
+                        eaRow.Append(CreateCell(""));
+                        eaRow.Append(CreateCell(""));
+                        eaRow.Append(CreateCell($"{enumArea.name}"));
+                        eaRow.Append(CreateCell($"{enumArea.sampleSize}"));
+                        sheetData.Append(eaRow);
                     }
                 }
                 else
@@ -1252,6 +1286,7 @@ namespace GPSSampleDecoder.Utils
             wSheetPart.Worksheet = new Worksheet(sheetData);
             Row headerRow = new Row();
             headerRow.Append(CreateCell("Enumeration Area Name"));
+            headerRow.Append(CreateCell("Self Weighted Sample Size"));
             headerRow.Append(CreateCell("# of locations"));
             headerRow.Append(CreateCell("# of multi-households"));
             headerRow.Append(CreateCell("# Enumerated"));
@@ -1268,6 +1303,8 @@ namespace GPSSampleDecoder.Utils
             // find number of field operators
 
             sheetData.AppendChild(headerRow);
+
+            var firstStudy = data.studies.FirstOrDefault();
 
             foreach (var enumArea in data.enumAreas)
             {
@@ -1343,6 +1380,16 @@ namespace GPSSampleDecoder.Utils
                 Row row = new Row();
 
                 row.Append(CreateCell(enumArea.name));
+
+                if (firstStudy != null && firstStudy.samplingMethod == "SelfWeighted")
+                {
+                    row.Append(CreateCell(enumArea.sampleSize.ToString()));
+                }
+                else
+                {
+                    row.Append(CreateCell("N/A"));
+                }
+
                 row.Append(CreateCell(numLocations.ToString()));
                 row.Append(CreateCell(numMultiHouseholds.ToString()));
                 row.Append(CreateCell(numEnumerated.ToString()));

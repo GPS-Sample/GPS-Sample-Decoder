@@ -18,9 +18,9 @@ namespace GPSSampleDecoder
 {
    public partial class ViewController : NSViewController
    {
-      public int dbVersion = 325;
-      public int minDbVersion = 325;
-      public string appVersion = "v3.0.8";
+      public int dbVersion = 326;
+      public int minDbVersion = 326;
+      public string appVersion = "v3.0.9";
       private int _percentDecoded = 0;
       private int _percentSaved = 0;
       private List<string> PathsToConfigurations = new List<String>();
