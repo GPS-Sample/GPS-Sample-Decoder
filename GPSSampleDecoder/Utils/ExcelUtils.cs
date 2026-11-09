@@ -1043,7 +1043,16 @@ namespace GPSSampleDecoder.Utils
                         eaRow.Append(CreateCell(""));
                         eaRow.Append(CreateCell(""));
                         eaRow.Append(CreateCell($"{enumArea.name}"));
-                        eaRow.Append(CreateCell($"{enumArea.sampleSize}"));
+
+                        if (enumArea.sampleSize == 0)
+                        {
+                            eaRow.Append(CreateCell("not sampled yet"));
+                        }
+                        else
+                        {
+                            eaRow.Append(CreateCell($"{enumArea.sampleSize}"));
+                        }
+
                         sheetData.Append(eaRow);
                     }
                 }
@@ -1383,7 +1392,14 @@ namespace GPSSampleDecoder.Utils
 
                 if (firstStudy != null && firstStudy.samplingMethod == "SelfWeighted")
                 {
-                    row.Append(CreateCell(enumArea.sampleSize.ToString()));
+                    if (enumArea.sampleSize == 0)
+                    {
+                        row.Append(CreateCell("not sampled yet"));
+                    }
+                    else
+                    {
+                        row.Append(CreateCell(enumArea.sampleSize.ToString()));
+                    }
                 }
                 else
                 {
