@@ -37,7 +37,10 @@ namespace GPSSampleDecoder.DataObjects
         public string reviewStatus { get; set; }
 		public string exclusionReason { get; set; }
 		public string exclusionNotes { get; set; }
-		public string locationUuid { get; set; }
+        public string replacedBy { get; set; }
+        public string replacementFor { get; set; }
+        public string replacementReason { get; set; }
+        public string locationUuid { get; set; }
 		public string odkRecordUri { get; set; }
 		public List<FieldData> fieldDataList { get; set; }
 

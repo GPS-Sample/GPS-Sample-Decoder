@@ -500,7 +500,10 @@ namespace GPSSampleDecoder.Utils
             headerRow.Append(CreateCell("Exclusion Reason"));
             headerRow.Append(CreateCell("Exclusion Notes"));
             headerRow.Append(CreateCell("Sampled"));
-            headerRow.Append(CreateCell("SubsetSampled"));
+            headerRow.Append(CreateCell("Replaced By"));
+            headerRow.Append(CreateCell("Replacement For"));
+            headerRow.Append(CreateCell("Replacement Reason"));
+            headerRow.Append(CreateCell("Subset Sampled"));
             headerRow.Append(CreateCell("Surveyed"));
             headerRow.Append(CreateCell("Date Surveyed"));
             headerRow.Append(CreateCell("Time Surveyed"));
@@ -751,6 +754,21 @@ namespace GPSSampleDecoder.Utils
                             else
                                 eiRow.Append(CreateCell("No"));
 
+                            var firstStudy = data.studies.FirstOrDefault();
+
+                            if (firstStudy != null && firstStudy.samplingMethod == "Structure")
+                            {
+                                eiRow.Append(CreateCell(enumItem.replacedBy));
+                                eiRow.Append(CreateCell(enumItem.replacementFor));
+                                eiRow.Append(CreateCell(enumItem.replacementReason));
+                            }
+                            else
+                            {
+                                eiRow.Append(CreateCell(""));
+                                eiRow.Append(CreateCell(""));
+                                eiRow.Append(CreateCell(""));
+                            }
+
                             if (enumItem.subsetSamplingState == "Sampled")
                                 eiRow.Append(CreateCell("Yes"));
                             else
@@ -990,6 +1008,7 @@ namespace GPSSampleDecoder.Utils
             headerRow.Append(CreateCell("Sampling Method"));
             headerRow.Append(CreateCell("Sample Type"));
             headerRow.Append(CreateCell("Sample Size"));
+            headerRow.Append(CreateCell("Max Replacements"));
             headerRow.Append(CreateCell("Subset Sample Name"));
             headerRow.Append(CreateCell("Subset Sample Type"));
             headerRow.Append(CreateCell("Subset Sample Size"));
@@ -1014,6 +1033,7 @@ namespace GPSSampleDecoder.Utils
                         studyRow.Append(CreateCell("Strata-" + strata.name));
                         studyRow.Append(CreateCell(strata.sampleType));
                         studyRow.Append(CreateCell($"{strata.sampleSize}"));
+                        studyRow.Append(CreateCell(""));
                         studyRow.Append(CreateCell(study.subsetSampleName));
                         studyRow.Append(CreateCell(study.subsetSampleType));
                         studyRow.Append(CreateCell($"{study.subsetSampleSize}"));
@@ -1026,10 +1046,11 @@ namespace GPSSampleDecoder.Utils
                     studyRow.Append(CreateCell(study.name));
                     studyRow.Append(CreateCell(study.samplingMethod));
                     studyRow.Append(CreateCell(study.sampleType));
-                    studyRow.Append(CreateCell("0"));
+                    studyRow.Append(CreateCell(""));
+                    studyRow.Append(CreateCell(""));
                     studyRow.Append(CreateCell(study.subsetSampleName));
                     studyRow.Append(CreateCell(study.subsetSampleType));
-                    studyRow.Append(CreateCell("0"));
+                    studyRow.Append(CreateCell(""));
                     sheetData.Append(studyRow);
 
                     foreach (var enumArea in data.enumAreas)
@@ -1063,6 +1084,7 @@ namespace GPSSampleDecoder.Utils
                     studyRow.Append(CreateCell(study.samplingMethod));
                     studyRow.Append(CreateCell(study.sampleType));
                     studyRow.Append(CreateCell($"{study.sampleSize}"));
+                    studyRow.Append(CreateCell($"{study.maxReplacements}"));
                     studyRow.Append(CreateCell(study.subsetSampleName));
                     studyRow.Append(CreateCell(study.subsetSampleType));
                     studyRow.Append(CreateCell($"{study.subsetSampleSize}"));

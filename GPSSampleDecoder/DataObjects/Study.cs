@@ -20,6 +20,7 @@ namespace GPSSampleDecoder.DataObjects
         public int subsetSampleSize { get; set; }
         public string sampleType { get; set; }
         public string subsetSampleType { get; set; }
+        public int maxReplacements { get; set; }
         public List<Strata> stratas { get; set; }
         public List<Field> fields { get; set; }
         public List<Field> collectionFields { get; set; }
